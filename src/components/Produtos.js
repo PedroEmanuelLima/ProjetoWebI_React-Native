@@ -1,19 +1,18 @@
 import { StyleSheet, View, Text, Image, TouchableNativeFeedback } from "react-native";
 import React from "react";
 
-export default function Produtos (props) {
-
+export default function Produtos ({ thumbnail, title, price }) {
 
   return (
     <View style={styles.container}>
         <View>
           <Image resizeMode="contain"
             style={styles.image}
-            source={{uri:props.r.thumbnail}}
+            source={{uri:thumbnail}}
             
           />
-          <Text style={styles.title}>{props.r.title}</Text>
-          <Text style={styles.preco}>R$ {props.r.price.toFixed(2).replace(".",",")}</Text>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.preco}>R$ {price.toFixed(2).replace(".",",")}</Text>
         </View>
     </View>
   );
