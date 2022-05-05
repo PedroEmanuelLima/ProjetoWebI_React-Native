@@ -22,6 +22,8 @@ export const Home = () => {
     .then(({ data }) => {
       setResultado(data.results);
     })
+    console.log(resultado)
+
   }
   
   useEffect(() => {
@@ -32,14 +34,6 @@ export const Home = () => {
        setResultado(data.results);
      })}
   });
-
-  /*const renderItem = ({ item }) => (
-    <Produtos
-      title={item.title}
-      thumbnail={item.thumbnail}
-      price={item.price}
-    />
-  );*/
 
   const renderItem = ({ item }) => (<Produtos {...item}/>)
 
