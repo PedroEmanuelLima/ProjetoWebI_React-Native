@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, ScrollView, Image, TouchableNativeFeedback, SafeAreaView, FlatList } from 'react-native';
 import axios from "axios";
-import { useState,useEffect } from 'react';
+import { useState,useEffect} from 'react';
 import { Searchbar } from 'react-native-paper';
 
 import { styles } from './Styles';
@@ -33,13 +33,15 @@ export const Home = () => {
      })}
   });
 
-  const renderItem = ({ item }) => (
+  /*const renderItem = ({ item }) => (
     <Produtos
       title={item.title}
       thumbnail={item.thumbnail}
       price={item.price}
     />
-  );
+  );*/
+
+  const renderItem = ({ item }) => (<Produtos {...item}/>)
 
   return (
 
@@ -47,7 +49,7 @@ export const Home = () => {
       <StatusBar
         style = "auto"
         hidden = {false}
-        backgroundColor = "rgb(168, 20, 20)"
+        backgroundColor = "rgb(3,147,213)"//backgroundColor = "rgb(168, 20, 20)"
         translucent = {false}
         networkActivityIndicatorVisible = {true}
       />
@@ -74,15 +76,14 @@ export const Home = () => {
       </View>
        
       { (resultado.length <= 0 && textsearch.trim().length > 0 && loading) && <Load />}
-        <SafeAreaView style={styles.content}>
+      <SafeAreaView style={styles.content}>
           <FlatList
             data={resultado}
-            key={item => item.id}
-            keyExtractor={item => item.id}
+            keyExtractor={(item) => item.id}
             numColumns={2}
             renderItem={renderItem}
           />
-        </SafeAreaView>
+      </SafeAreaView>
   
     </View>
   );

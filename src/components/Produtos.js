@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     justifyContent: "center", 
     alignItems: "center",
     backgroundColor:"#fff",
-    shadowColor:"red",
+    shadowColor:"blue",
     elevation:10,
     display:"flex",
     flexGrow: 1,
@@ -61,7 +61,8 @@ const styles = StyleSheet.create({
     width:170,
     textAlign: 'center',
     alignSelf:"center",
-    color:"red"
+    color:"blue",
+    fontWeight:"bold"
   }
 
 });

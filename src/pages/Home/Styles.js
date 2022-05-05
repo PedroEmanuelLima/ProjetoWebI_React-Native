@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, StatusBar } from "react-native";
 
 export const styles = StyleSheet.create({
 
@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
   
     containerSearch:{
       width:"100%",
-      backgroundColor:"rgb(248,0,50)",
+      backgroundColor:"rgb(0,158,230)"//backgroundColor:"rgb(248,0,50)",
     },
   
     containerImage:{
