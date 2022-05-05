@@ -40,8 +40,7 @@ export const styles = StyleSheet.create({
     },
 
     content: {
-      //Se não funcionar com 77%, volta pra 400. Só mudei porque achei estranha uma barra branca do marginBottom.
-      marginBottom:"77%",
+      flex:1,
       paddingHorizontal: 3,
       flexDirection: "row",
       flexWrap: "wrap",

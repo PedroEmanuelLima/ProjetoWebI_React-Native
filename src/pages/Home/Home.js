@@ -25,9 +25,9 @@ export const Home = () => {
   }
   
   useEffect(() => {
-    if (textsearch===""){
+    if (resultado.length===0 && textsearch===""){
      setLoading(true);
-     axios.get(`https://api.mercadolibre.com/sites/MLB/search?category=MLB1000`)
+     axios.get(`https://api.mercadolibre.com/sites/MLB/search?q=eletronicos`)
      .then(({ data }) => {
        setResultado(data.results);
      })}
@@ -41,11 +41,11 @@ export const Home = () => {
     />
   );*/
 
-  const renderItem = ({ item }) => (<Produtos {...item}/>)
+  const renderItem = ({ item}) => (<Produtos {...item}/>)
 
   return (
 
-    <View>
+    <View style={{flex:1}}>
       <StatusBar
         style = "auto"
         hidden = {false}
@@ -82,6 +82,7 @@ export const Home = () => {
             keyExtractor={(item) => item.id}
             numColumns={2}
             renderItem={renderItem}
+            onEndReachedThreshold={0.1}
           />
       </SafeAreaView>
   
