@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     title: {
       color:"#fff",
       alignSelf:"center",
-      marginTop:10,
+      marginTop:-35,
       fontSize:20,
       fontWeight:"bold"
     },
@@ -23,17 +23,29 @@ export const styles = StyleSheet.create({
       backgroundColor:"rgb(248,0,50)",
     },
   
-    containerButton:{
-      marginTop:30
+    containerImage:{
+      width:50,
+      borderRadius:10,
+      alignSelf:"flex-end",
+      marginRight:10,
+      marginTop:10
     },
   
     cartImage:{
-      justifyContent:"space-between"
+      height:40,
+      width:40,
+      alignSelf:"center",
+      marginRight:3,
+      marginTop:10
     },
 
     content: {
-      width: '100%',
-      marginBottom: 400,
-      paddingHorizontal: 5,
+      //Se não funcionar com 77%, volta pra 400. Só mudei porque achei estranha uma barra branca do marginBottom.
+      marginBottom:"77%",
+      paddingHorizontal: 3,
+      flexDirection: "row",
+      flexWrap: "wrap",
+      justifyContent: "center",
+      alignItems: "center"
     },
   });

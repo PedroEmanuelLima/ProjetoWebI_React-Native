@@ -23,6 +23,15 @@ export const Home = () => {
       setResultado(data.results);
     })
   }
+  
+  useEffect(() => {
+    if (textsearch===""){
+     setLoading(true);
+     axios.get(`https://api.mercadolibre.com/sites/MLB/search?category=MLB1000`)
+     .then(({ data }) => {
+       setResultado(data.results);
+     })}
+  });
 
   const renderItem = ({ item }) => (
     <Produtos
@@ -44,16 +53,15 @@ export const Home = () => {
       />
       
       <View style={styles.containerSearch}>
-        <Text style={styles.title}>E-commerce
-        <TouchableNativeFeedback>
-        <View style={styles.containerButton}>
+        <TouchableNativeFeedback >
+          <View style={styles.containerImage}>
           <Image
-            source={require("./../../assets/shopping_cart.png")} 
-            style={styles.cartImage}     
+              source={require("./../../assets/shopping_cart.png")} 
+              style={styles.cartImage}     
           />
-        </View>
+          </View>
         </TouchableNativeFeedback>
-        </Text>
+        <Text style={styles.title}>E-commerce</Text>
 
         <Searchbar
             style={styles.searchBar}
@@ -64,8 +72,8 @@ export const Home = () => {
         
         />
       </View>
-
-      { (resultado.length <= 0 && textsearch.trim().length > 0 && loading) && <Load /> }
+       
+      { (resultado.length <= 0 && textsearch.trim().length > 0 && loading) && <Load />}
         <SafeAreaView style={styles.content}>
           <FlatList
             data={resultado}
@@ -75,7 +83,7 @@ export const Home = () => {
             renderItem={renderItem}
           />
         </SafeAreaView>
-
+  
     </View>
   );
 }

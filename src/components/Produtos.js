@@ -4,6 +4,7 @@ import React from "react";
 export default function Produtos ({ thumbnail, title, price }) {
 
   return (
+    <TouchableNativeFeedback >
     <View style={styles.container}>
         <View>
           <Image resizeMode="contain"
@@ -15,22 +16,28 @@ export default function Produtos ({ thumbnail, title, price }) {
           <Text style={styles.preco}>R$ {price.toFixed(2).replace(".",",")}</Text>
         </View>
     </View>
+    </TouchableNativeFeedback>
   );
 }
 
 const styles = StyleSheet.create({
 
   container: {
-    width:'40%',
-    height: 280,
-    borderRadius:8,
+    width:"45%",
+    height:360,
+    borderRadius:15,
     borderWidth:1,
     borderColor:"#fff",
-    paddingHorizontal: 3,
+    padding: 10,
     margin:4,
-    marginLeft:3,
-
+    marginTop:5,
+    marginLeft:4,
+    justifyContent: "center", 
     alignItems: "center",
+    backgroundColor:"#fff",
+    shadowColor:"red",
+    elevation:10,
+    display:"flex",
     flexGrow: 1,
     flexBasis: 0
   },
@@ -40,19 +47,21 @@ const styles = StyleSheet.create({
     height: 150,
     margin: 10,
     borderRadius: 2,
+    alignSelf:"center"
   },
 
   title: {
-    height: 70,
-    fontSize:16,
+    width:170,
     textAlign: 'center',
+    alignSelf:"center",
   },
 
   preco:{
-    paddingTop:10,
-    fontSize:16,
+    padding:15,
+    width:170,
     textAlign: 'center',
-    color:"red"  
+    alignSelf:"center",
+    color:"red"
   }
 
 });
