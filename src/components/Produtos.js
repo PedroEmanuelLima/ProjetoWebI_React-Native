@@ -21,20 +21,18 @@ export default function Produtos ({ thumbnail, title, price }) {
 const styles = StyleSheet.create({
 
   container: {
-    width:"45%",
-    height:360,
-    borderRadius:15,
+    width:'40%',
+    height: 280,
+    borderRadius:8,
     borderWidth:1,
     borderColor:"#fff",
-    padding: 10,
-    marginTop:5,
+    paddingHorizontal: 3,
+    margin:4,
     marginLeft:3,
-    justifyContent: "center", 
+
     alignItems: "center",
-    backgroundColor:"#fff",
-    shadowColor:"red",
-    elevation:20,
-    display:"flex"
+    flexGrow: 1,
+    flexBasis: 0
   },
 
   image: {
@@ -42,21 +40,18 @@ const styles = StyleSheet.create({
     height: 150,
     margin: 10,
     borderRadius: 2,
-    alignSelf:"center"
-
   },
 
   title: {
-    width:170,
+    height: 70,
+    fontSize:16,
     textAlign: 'center',
-    alignSelf:"center",
   },
 
   preco:{
-    padding:15,
-    width:170,
+    paddingTop:10,
+    fontSize:16,
     textAlign: 'center',
-    alignSelf:"center",
     color:"red"  
   }
 

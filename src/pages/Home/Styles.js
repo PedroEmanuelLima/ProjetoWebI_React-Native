@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
-    
+
     title: {
       color:"#fff",
       alignSelf:"center",
@@ -30,8 +30,10 @@ export const styles = StyleSheet.create({
     cartImage:{
       justifyContent:"space-between"
     },
-  
+
     content: {
-      width: '100%'
+      width: '100%',
+      marginBottom: 400,
+      paddingHorizontal: 5,
     },
   });

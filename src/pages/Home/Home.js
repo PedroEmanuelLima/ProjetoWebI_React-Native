@@ -65,17 +65,16 @@ export const Home = () => {
         />
       </View>
 
-        {
-          resultado.length <= 0 && textsearch.trim().length > 0 && loading
-          ? <Load />
-          : (<SafeAreaView style={styles.safeAreaView}>
-              <FlatList
-                data={resultado}
-                renderItem={renderItem}
-                keyExtractor={item => item.id}
-              />
-            </SafeAreaView>)
-        }
+      { (resultado.length <= 0 && textsearch.trim().length > 0 && loading) && <Load /> }
+        <SafeAreaView style={styles.content}>
+          <FlatList
+            data={resultado}
+            key={item => item.id}
+            keyExtractor={item => item.id}
+            numColumns={2}
+            renderItem={renderItem}
+          />
+        </SafeAreaView>
 
     </View>
   );
