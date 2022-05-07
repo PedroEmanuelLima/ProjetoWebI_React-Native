@@ -1,4 +1,4 @@
-import { StyleSheet, StatusBar } from "react-native";
+import { StyleSheet} from "react-native";
 
 export const styles = StyleSheet.create({
 
@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
   
     containerSearch:{
       width:"100%",
-      backgroundColor:"rgb(0,158,230)"//backgroundColor:"rgb(248,0,50)",
+      backgroundColor:"rgb(0,158,230)"
     },
   
     containerImage:{
@@ -47,4 +47,15 @@ export const styles = StyleSheet.create({
       justifyContent: "center",
       alignItems: "center"
     },
+
+    data:{
+      width: 200, 
+      alignSelf:"center", 
+      backgroundColor:"#fff",
+      marginTop:-15,
+      marginBottom:10,
+      borderRadius:10,
+      borderWidth:3,
+      borderColor:"#000"
+    }
   });
