@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, Image, TouchableNativeFeedback} from 'react-native';
+import { Text, View, Image, TouchableNativeFeedback, Button, TouchableOpacity, Pressable} from 'react-native';
 import { styles } from './Styles';
 
 
@@ -27,19 +27,16 @@ export const Detalhes = ({route}) => {
           <Text style={styles.preco}>R$ {info.price.toFixed(2).replace(".",",")}</Text>
           <Text style={styles.quantidade}>Quantidade: {info.available_quantity}</Text>
           <Text style={styles.estoque}>{info.available_quantity>0?"Estoque disponível": "Estoque indisponível"} </Text>
-          <Text>{info.descriptions}</Text>
         </View>
       </View>
-      <TouchableNativeFeedback>
-      <View style={styles.buttonBuy}>
+
+      <TouchableOpacity style={styles.buttonBuy}>
         <Text style={styles.titleBuy}>Comprar</Text>
-      </View>
-      </TouchableNativeFeedback>
-      <TouchableNativeFeedback>
-      <View style={styles.buttonCart}>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.buttonCart}>
         <Text style={styles.titleCart}>Adicionar ao carrinho</Text>
-      </View>
-      </TouchableNativeFeedback>
+      </TouchableOpacity>
     </View>
   );
 }
