@@ -1,41 +1,62 @@
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, SafeAreaView, FlatList, StyleSheet } from 'react-native';
+import { Text, View, SafeAreaView, FlatList } from 'react-native';
 import axios from "axios";
 import { useState,useEffect} from 'react';
-import { Searchbar } from 'react-native-paper';
 
-import { styles } from './Styles';
 import { Load } from '../../components/Load';
+import { CartEmpty } from '../../components/CartEmpty';
 import { CartProduct } from '../../components/CartProduct';
+import { styles } from './Styles';
 
+export const Cart = () => {
 
-export const Home = () => {
-
-  const [cartData, setCartData] = useState([]);
+  const cartData = [];
+  const [dataResult, setDataResult] = useState([])
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  setCartData([{ id: 'MLB1880052099', qtd: 1}, { id: 'MLB2141855118', qtd: 1 }]);
+  cartData.push({ id: 'MLB1880052099', qtd: 1})
+  cartData.push({ id: 'MLB2141855118', qtd: 1 });
   
+  // setData([...data, {
+  //   id: product.body.id,
+  //   title: product.body.title,
+  //   thumbnail: product.body.thumbnail,
+  //   price: product.body.price,
+  //   quantity: cartData[index].quantity
+  // }])
+
   useEffect(() => {
-    // https://api.mercadolibre.com/items/MLB1880052099
-    cartData.map(p => {
-        url = 'https://api.mercadolibre.com/items?ids=MLB1880052099'+`,${p.id}`
+    let url = 'https://api.mercadolibre.com/items?ids=';
+    cartData.map((item, index) => {
+      index < 1 ? url += item.id : url += ','+item.id
     })
+    
     axios.get(url)
-        .then(res => setData(res));
-  })
+      .then(({data}) => {
+        console.log(data)
+        setLoading(true)
+      })
+      .catch((er) => {
+        setData([]);
+        setLoading(true);
+      });
+
+    }, []);
 
   const renderItem = ({ item }) => (
     <CartProduct
       title={item.title}
       thumbnail={item.thumbnail}
       price={item.price}
+      quantity={item.quantity}
     />
   );
 
   return (
 
-    <View>
+   
+    <View style={{flex:1}}>
       <StatusBar
         style = "auto"
         hidden = {false}
@@ -43,29 +64,15 @@ export const Home = () => {
         translucent = {false}
         networkActivityIndicatorVisible = {true}
       />
-      
-      <View style={styles.containerSearch}>
-
-        <Text style={styles.title}>E-commerce</Text>
-
-        <Searchbar
-            style={styles.searchBar}
-            placeholder="Busque em seu carrinho..."
-            onChangeText={setTextSearch}
-            onSubmitEditing={produtos}
-            value={textsearch}
-        
-        />
-      </View>
        
-        { (resultado.length <= 0 && textsearch.trim().length > 0 && loading) && <Load />}
+        { (data.length <= 0 && !loading) && <Load />}
         {
-            data.length <= 0 
+            data.length <= 0 && loading
             ? <CartEmpty/> 
             : (
                 <SafeAreaView style={styles.content}>
                     <FlatList
-                        data={data}
+                        data={dataResult}
                         keyExtractor={(item) => item.id}
                         renderItem={renderItem}
                     />
@@ -76,9 +83,3 @@ export const Home = () => {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-    content: {
-        width: '100%',
-    }
-});

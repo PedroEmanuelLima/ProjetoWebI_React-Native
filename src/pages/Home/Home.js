@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, Image, TouchableNativeFeedback, SafeAreaView, FlatList, Button } from 'react-native';
+import { Text, View, Image, TouchableOpacity, SafeAreaView, FlatList, Button } from 'react-native';
 import axios from "axios";
 import { useState,useEffect} from 'react';
 import { Searchbar } from 'react-native-paper';
@@ -73,6 +73,10 @@ export const Home = (props) => {
 
   const renderItem = ({ item}) => (<Produtos {...item} navigation={navigation} openProduto={openProduto}/>)
 
+  const goCart = () => {
+    navigation.navigate("Cart");
+  }
+
   return (
 
     <View style={{flex:1}}>
@@ -85,14 +89,12 @@ export const Home = (props) => {
       />
       
       <View style={styles.containerSearch}>
-        <TouchableNativeFeedback  >
-          <View style={styles.containerImage}>
+        <TouchableOpacity onPress={goCart} style={styles.containerImage}>
           <Image
               source={require("./../../assets/shopping_cart.png")} 
               style={styles.cartImage}     
           />
-          </View>
-        </TouchableNativeFeedback>
+        </TouchableOpacity>
         <Text style={styles.title}>E-commerce</Text>
 
         <Searchbar
