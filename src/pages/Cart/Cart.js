@@ -1,18 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, SafeAreaView, FlatList } from 'react-native';
-import axios from "axios";
+import { Text, View, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
 import { useState,useEffect} from 'react';
 
 import { Load } from '../../components/Load';
 import { CartEmpty } from '../../components/CartEmpty';
 import { CartProduct } from '../../components/CartProduct';
 import { styles } from './Styles';
+import { api } from '../../config';
 
 export const Cart = () => {
 
   const cartData = [];
-  const [dataResult, setDataResult] = useState([])
-  const [data, setData] = useState([]);
+  const [dataProducts, setDataProducts] = useState([]);
   const [loading, setLoading] = useState(false);
 
   cartData.push({ id: 'MLB1880052099', qtd: 1})
@@ -27,18 +26,26 @@ export const Cart = () => {
   // }])
 
   useEffect(() => {
-    let url = 'https://api.mercadolibre.com/items?ids=';
+    let url = 'items?ids=';
     cartData.map((item, index) => {
       index < 1 ? url += item.id : url += ','+item.id
     })
     
-    axios.get(url)
-      .then(({data}) => {
-        console.log(data)
+    api.get(url)
+      .then(({ data }) => {
+        data.map((res, indx) => {
+          setDataProducts(dataProducts => [...dataProducts, {
+            id: res.body.id,
+            title: res.body.title,
+            thumbnail: res.body.thumbnail,
+            price: res.body.price,
+            quantity: cartData[indx].qtd
+          }])
+        })
         setLoading(true)
       })
       .catch((er) => {
-        setData([]);
+        setDataProducts([]);
         setLoading(true);
       });
 
@@ -65,18 +72,24 @@ export const Cart = () => {
         networkActivityIndicatorVisible = {true}
       />
        
-        { (data.length <= 0 && !loading) && <Load />}
+        { (dataProducts.length <= 0 && !loading) && <Load />}
         {
-            data.length <= 0 && loading
+            dataProducts.length <= 0 && loading
             ? <CartEmpty/> 
             : (
-                <SafeAreaView style={styles.content}>
-                    <FlatList
-                        data={dataResult}
-                        keyExtractor={(item) => item.id}
-                        renderItem={renderItem}
-                    />
-                </SafeAreaView>
+                <View style={styles.container}>
+                  <SafeAreaView style={styles.content}>
+                      <FlatList
+                          data={dataProducts}
+                          keyExtractor={(item) => item.id}
+                          renderItem={renderItem}
+                      />
+                  </SafeAreaView>
+
+                  <TouchableOpacity style={styles.buttonBuy}>
+                    <Text style={styles.titleBuy}>Finalizar Compra</Text>
+                  </TouchableOpacity>
+                </View>
             )
         }
   

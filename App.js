@@ -21,9 +21,9 @@ export default function App() {
         }}/>
         <Stack.Screen name='Cart' component={Cart} options={{
           title: 'Carrinho',
-          headerStyle: {backgroundColor: 'rgb(3,147,213)',},
+          headerStyle: {backgroundColor: 'rgb(3,147,213)'},
           headerTintColor: '#fff',
-          headerTitleAlign: 'center' 
+          headerTitleAlign: 'center',
         }}/>
       </Stack.Navigator>
     </NavigationContainer>

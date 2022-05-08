@@ -1,13 +1,35 @@
 import { StyleSheet} from "react-native";
 
 export const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        paddingBottom: 20
+    },
     content: {
         flex:1,
-        paddingHorizontal: 3,
+        marginHorizontal: "5%",
         flexDirection: "row",
-        flexWrap: "wrap",
         justifyContent: "center",
-        alignItems: "center"
     },
+    
+    buttonBuy: {
+        width:"80%",
+        borderRadius:10,
+        borderWidth:1,
+        borderColor:"#fff",
+        justifyContent:"center",
+        alignItems:"center",
+        alignSelf:"center",
+        backgroundColor:"rgb(0,158,230)",
+        marginTop:10,
+        padding: 15
+      },
+    
+      titleBuy: {
+        fontSize:20,
+        textAlign: 'center',
+        alignSelf:"center",
+        color:"#fff"
+      },
 
 });
