@@ -1,8 +1,9 @@
 import react from "react";
-import { View } from "react-native";
+import { Image } from "react-native";
+
 
 export const CartEmpty = () => {
     return(
-        <View>Vazia</View>
+        <Image source={require('./../assets/shopping_cart.png')} />
     );
 }

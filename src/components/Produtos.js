@@ -1,19 +1,19 @@
 import { StyleSheet, View, Text, Image, TouchableNativeFeedback } from "react-native";
 import React from "react";
 
-export default function Produtos ({ thumbnail, title, price }) {
+export default function Produtos (props) {
 
   return (
-    <TouchableNativeFeedback >
+    <TouchableNativeFeedback onPress={() => props.openProduto(props.id)}>
     <View style={styles.container}>
         <View>
           <Image resizeMode="contain"
             style={styles.image}
-            source={{uri:thumbnail}}
+            source={{uri:props.thumbnail}}
             
           />
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.preco}>R$ {price.toFixed(2).replace(".",",")}</Text>
+          <Text style={styles.title}>{props.title}</Text>
+          <Text style={styles.preco}>R$ {props.price.toFixed(2).replace(".",",")}</Text>
         </View>
     </View>
     </TouchableNativeFeedback>
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    width:170,
+    width:150,
     textAlign: 'center',
     alignSelf:"center",
   },

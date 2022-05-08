@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet} from "react-native";
 
 export const styles = StyleSheet.create({
 
@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
   
     containerSearch:{
       width:"100%",
-      backgroundColor:"rgb(0,158,230)"//backgroundColor:"rgb(248,0,50)",
+      backgroundColor:"rgb(0,158,230)"
     },
   
     containerImage:{
@@ -40,12 +40,22 @@ export const styles = StyleSheet.create({
     },
 
     content: {
-      //Se não funcionar com 77%, volta pra 400. Só mudei porque achei estranha uma barra branca do marginBottom.
-      marginBottom:"77%",
+      flex:1,
       paddingHorizontal: 3,
       flexDirection: "row",
       flexWrap: "wrap",
       justifyContent: "center",
       alignItems: "center"
     },
+
+    data:{
+      width: 200, 
+      alignSelf:"center", 
+      backgroundColor:"#fff",
+      marginTop:-15,
+      marginBottom:10,
+      borderRadius:10,
+      borderWidth:3,
+      borderColor:"#000"
+    }
   });

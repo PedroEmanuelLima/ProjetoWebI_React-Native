@@ -19,11 +19,11 @@
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
     "react-native-maps": "^0.31.1",
+    "react-native-modal-datetime-picker": "^8.9.3",
     "react-native-paper": "^4.12.1",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
-    "react-native-web": "0.17.1",
-    "react-xml-parser": "^1.1.8"
+    "react-native-web": "0.17.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
