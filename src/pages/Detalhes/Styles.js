@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
       borderWidth:1,
       borderColor:"#fff",
       padding: 10,
-      margin:10,
+      margin:30,
       alignSelf:"center",
       backgroundColor:"#fff",
       shadowColor:"blue",

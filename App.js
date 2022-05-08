@@ -14,9 +14,10 @@ export default function App() {
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name='Home' component={Home} options={{headerShown: false}}/>
         <Stack.Screen name='Detalhes' component={Detalhes} options={{
-          title: '',
+          title: 'Produto',
           headerStyle: {backgroundColor: 'rgb(3,147,213)',},
-          headerTintColor: '#fff'
+          headerTintColor: '#fff',
+          headerTitleAlign: 'center' 
         }}/>
         <Stack.Screen name='Cart' component={Cart} options={{
           title: 'Carrinho',

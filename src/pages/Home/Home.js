@@ -49,6 +49,7 @@ export const Home = (props) => {
     axios.get(`https://api.mercadolibre.com/items/${id}`)
     .then(({ data }) => {
     let i = data
+    setLoading(true);
     navigation.navigate("Detalhes",{info:i}) 
     })  
     

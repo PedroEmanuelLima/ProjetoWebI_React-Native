@@ -1,11 +1,10 @@
-import { StyleSheet, View, Text, Image, TouchableNativeFeedback } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableNativeFeedback, TouchableOpacity } from "react-native";
 import React from "react";
 
 export default function Produtos (props) {
 
   return (
-    <TouchableNativeFeedback onPress={() => props.openProduto(props.id)}>
-    <View style={styles.container}>
+    <TouchableOpacity  style={styles.container} onPress={() => props.openProduto(props.id)}>
         <View>
           <Image resizeMode="contain"
             style={styles.image}
@@ -15,8 +14,7 @@ export default function Produtos (props) {
           <Text style={styles.title}>{props.title}</Text>
           <Text style={styles.preco}>R$ {props.price.toFixed(2).replace(".",",")}</Text>
         </View>
-    </View>
-    </TouchableNativeFeedback>
+    </TouchableOpacity>
   );
 }
 
