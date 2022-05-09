@@ -1,19 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, Image, TouchableOpacity, SafeAreaView, FlatList, Button } from 'react-native';
-import axios from "axios";
 import { useState,useEffect} from 'react';
 import { Searchbar } from 'react-native-paper';
 
 import { styles } from './Styles';
 import Produtos from './../../components/Produtos';
 import { Load } from '../../components/Load';
+import { api } from '../../config';
 
 //import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 
-export const Home = (props) => {
-
-  const navigation = props.navigation;
+export const Home = ({navigation}) => {
 
   const [resultado, setResultado] = useState([]);
   const [textsearch, setTextSearch] = useState("");
@@ -35,18 +33,19 @@ export const Home = (props) => {
   };*/
 
   const produtos = () =>{
+    let url = `sites/MLB/search?q=${textsearch}`;
     setResultado([]);
     setLoading(true);
-    axios.get(`https://api.mercadolibre.com/sites/MLB/search?q=${textsearch}`)
+    api.get(url)
     .then(({ data }) => {
       setResultado(data.results);
     })
-    console.log(resultado)
 
   }
 
   const openProduto = id =>{
-    axios.get(`https://api.mercadolibre.com/items/${id}`)
+    let url = `items/${id}`;
+    api.get(url)
     .then(({ data }) => {
     let i = data
     setLoading(true);
@@ -56,23 +55,27 @@ export const Home = (props) => {
   }
   
   useEffect(() => {
+    let url = `sites/MLB/search?q=eletronicos`;
     if (resultado.length===0 && textsearch===""){
       setLoading(true);
-      axios.get(`https://api.mercadolibre.com/sites/MLB/search?q=eletronicos`)
+      api.get(url)
       .then(({ data }) => {
         setResultado(data.results);
      })}
-  }, [textsearch]);
+  }, []);
 
-  /*const renderItem = ({ item }) => (
+  const renderItem = ({ item }) => (
     <Produtos
       title={item.title}
       thumbnail={item.thumbnail}
       price={item.price}
+      id={item.id}
+      navigation={navigation} 
+      openProduto={openProduto}
     />
-  );*/
+  );
 
-  const renderItem = ({ item}) => (<Produtos {...item} navigation={navigation} openProduto={openProduto}/>)
+  /*const renderItem = ({ item}) => (<Produtos {...item} navigation={navigation} openProduto={openProduto}/>)*/
 
   const goCart = () => {
     navigation.navigate("Cart");
