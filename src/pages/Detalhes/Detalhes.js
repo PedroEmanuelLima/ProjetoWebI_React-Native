@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, Image, TouchableOpacity } from 'react-native';
+import { Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { styles } from './Styles';
 
 
 
-export const Detalhes = ({route}) => {
+export const Detalhes = ({route,navigation}) => {
   const {info} = route.params
 
   const [cart, setCart] = useState([]);
@@ -47,6 +47,8 @@ export const Detalhes = ({route}) => {
   const headleAddCart = async () => {
     if (disponivel) {
       setCart(inserir(info.id));
+      Alert.alert("Produto", "Produto adicionado ao carrinho!")
+      //navigation.navigate("Cart")
     } else {
       // ALERTA QUE ESTÀ INDISPONIVEL
     }
