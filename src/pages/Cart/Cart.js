@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
 import { useState,useEffect} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Load } from '../../components/Load';
 import { CartEmpty } from '../../components/CartEmpty';
@@ -10,20 +11,20 @@ import { api } from '../../config';
 
 export const Cart = () => {
 
-  const cartData = [];
+  const [cartData, setCartData] = useState([]);
   const [dataProducts, setDataProducts] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  cartData.push({ id: 'MLB1880052099', qtd: 1})
-  cartData.push({ id: 'MLB2141855118', qtd: 1 });
   
-  // setData([...data, {
-  //   id: product.body.id,
-  //   title: product.body.title,
-  //   thumbnail: product.body.thumbnail,
-  //   price: product.body.price,
-  //   quantity: cartData[index].quantity
-  // }])
+  async function getData(){
+    const response = await AsyncStorage.getItem('cart');
+    if(response) {
+      setCartData(JSON.parse(response));
+    }
+  }
+
+  useEffect(() => {
+    getData();
+  }, [])
 
   useEffect(() => {
     let url = 'items?ids=';
@@ -42,14 +43,13 @@ export const Cart = () => {
             quantity: cartData[indx].qtd
           }])
         })
-        setLoading(true)
+        setLoading(true);
       })
       .catch((er) => {
         setDataProducts([]);
-        setLoading(true);
       });
 
-    }, []);
+    }, [cartData]);
 
   const renderItem = ({ item }) => (
     <CartProduct
