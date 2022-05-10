@@ -86,8 +86,3 @@ export const Detalhes = ({route}) => {
     </View>
   );
 }
-
-
-
-
-// "expo": "~44.0.0",

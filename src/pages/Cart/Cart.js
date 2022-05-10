@@ -22,6 +22,37 @@ export const Cart = () => {
     }
   }
 
+  const less = async (id) => {
+    let savedItems = [];
+    const response = await AsyncStorage.getItem('cart');
+    savedItems = JSON.parse(response);
+    const item = savedItems.find( p => p.id === id );
+    const index = savedItems.indexOf(item);
+    savedItems.splice(index, index+1);
+    
+    if (item.qtd-1 > 0) {
+      savedItems.push({ id: item.id, qtd: item.qtd-1 });
+    }
+
+    await AsyncStorage.setItem('cart', JSON.stringify(savedItems));
+    setCartData(savedItems);
+  }
+
+  const more = async (id) => {
+    let savedItems = [];
+    const response = await AsyncStorage.getItem('cart');
+    
+    if(response) savedItems = JSON.parse(response);
+
+    const item = savedItems.find( p => p.id === id );
+    const index = savedItems.indexOf(item);
+    savedItems.splice(index, index+1);
+    savedItems.push({ id: item.id, qtd: item.qtd+1 });
+
+    await AsyncStorage.setItem('cart', JSON.stringify(savedItems));
+    setCartData(savedItems);
+  }
+
   useEffect(() => {
     getData();
   }, [])
@@ -34,6 +65,7 @@ export const Cart = () => {
     
     api.get(url)
       .then(({ data }) => {
+        setDataProducts([]);
         data.map((res, indx) => {
           setDataProducts(dataProducts => [...dataProducts, {
             id: res.body.id,
@@ -47,16 +79,20 @@ export const Cart = () => {
       })
       .catch((er) => {
         setDataProducts([]);
+        setLoading(true);
       });
 
     }, [cartData]);
 
   const renderItem = ({ item }) => (
     <CartProduct
+      id={item.id}
       title={item.title}
       thumbnail={item.thumbnail}
       price={item.price}
       quantity={item.quantity}
+      less={less}
+      more={more}
     />
   );
 

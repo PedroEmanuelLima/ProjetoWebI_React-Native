@@ -1,17 +1,17 @@
 import react, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 
-export const CartProduct = ({ thumbnail, title, price, quantity }) => {
+export const CartProduct = ({ id, thumbnail, title, price, quantity, less, more }) => {
 
     const [quantityProduct, setQuantityProduct] = useState(quantity)
 
     const headleLess = () => {
-        setQuantityProduct(quantityProduct-1);
-    }
-
-    const headleMore = () => {
-        setQuantityProduct(quantityProduct+1);
-    }
+        less(id);
+      }
+    
+      const headleMore = () => {
+        more(id);
+      }
 
     return(
         <View style={styles.container}>
