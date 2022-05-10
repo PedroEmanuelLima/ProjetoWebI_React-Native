@@ -44,8 +44,7 @@ export const Home = ({navigation}) => {
   }
 
   const openProduto = id =>{
-    let url = `items/${id}`;
-    api.get(url)
+    api.get(`items/${id}`)
     .then(({ data }) => {
     let i = data
     setLoading(true);
