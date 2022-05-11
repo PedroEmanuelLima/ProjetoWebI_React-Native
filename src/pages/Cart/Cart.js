@@ -15,7 +15,7 @@ export const Cart = () => {
   const [dataProducts, setDataProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   
-  async function getData(){
+  const getData = async() =>{
     const response = await AsyncStorage.getItem('cart');
     if(response) {
       setCartData(JSON.parse(response));
@@ -53,9 +53,14 @@ export const Cart = () => {
     setCartData(savedItems);
   }
 
+
   useEffect(() => {
-    getData();
-  }, [])
+    async function tempFunction() {
+      await getData();
+    }
+    tempFunction();
+    return () => {};
+  }, []);
 
   useEffect(() => {
     let url = 'items?ids=';

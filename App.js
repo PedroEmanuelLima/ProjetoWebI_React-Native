@@ -1,4 +1,5 @@
 import React from "react";
+import { Button, TouchableOpacity, Text, Image } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -21,12 +22,20 @@ export default function App() {
           headerShown: false,
         }}/>
 
-        <Stack.Screen name='Detalhes' component={Detalhes} options={{
+        <Stack.Screen name='Detalhes' component={Detalhes} options= {({ navigation }) => ({
           title: 'Produto',
           headerStyle: {backgroundColor: 'rgb(3,147,213)',},
           headerTintColor: '#fff',
-          headerTitleAlign: 'center' 
-        }}/>
+          headerTitleAlign: 'center',
+          headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.navigate("Cart") } >
+              <Image
+                  source={require("./src/assets/shopping_cart.png")} 
+                  style={{width:40, height:40}}     
+              />
+          </TouchableOpacity>
+          ),          
+        })}/>
         
         <Stack.Screen name='Cart' component={Cart} options={{
           title: 'Carrinho',

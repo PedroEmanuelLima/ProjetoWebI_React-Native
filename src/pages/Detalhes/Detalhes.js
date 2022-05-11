@@ -46,7 +46,6 @@ export const Detalhes = ({route,navigation}) => {
     if (disponivel) {
       inserir();
       Alert.alert("Produto", "Produto adicionado ao carrinho!")
-      //navigation.navigate("Cart")
     } else {
       // ALERTA QUE ESTÀ INDISPONIVEL
     }
