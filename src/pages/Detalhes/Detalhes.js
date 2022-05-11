@@ -9,28 +9,25 @@ import { styles } from './Styles';
 
 export const Detalhes = ({route,navigation}) => {
   const {info} = route.params
-
-  const [cart, setCart] = useState([]);
   const [disponivel, setDisponivel] = useState(true);
 
-  async function inserir(id_product){
+
+  function inserir(){
     let savedItems = [];
-    const response = await AsyncStorage.getItem('cart');
-    
-    if(response) savedItems = JSON.parse(response);
-
-    const item = savedItems.find( p => p.id === id_product );
-    if (item) {
-      const index = savedItems.indexOf(item);
-      savedItems.splice(index, index+1);
-      savedItems.push({ id: item.id, qtd: item.qtd+1 });
-    }else {
-      savedItems.push({id: id_product, qtd: 1});
-    }
-
-    await AsyncStorage.setItem('cart', JSON.stringify(savedItems));
-
-    return savedItems;
+    let item = {}
+    AsyncStorage.getItem('cart')
+      .then(res => {
+        if (res){
+          savedItems = JSON.parse(res);
+          item = savedItems.find( p => p.id === info.id );
+          if (item) {
+            item.qtd += 1;
+          } else {
+            savedItems.push({ id: info.id, qtd: 1 });
+          }
+        } else { savedItems.push({ id: info.id, qtd: 1 }); }
+        AsyncStorage.setItem('cart', JSON.stringify(savedItems));
+      });
   }
 
   useEffect(() => {
@@ -39,14 +36,15 @@ export const Detalhes = ({route,navigation}) => {
   }, [])
 
   const headlePursh = async () => {
-    disponivel
-      ? navigation.navigate("AdressAndPayment", {valor: info.price})
-      : null // ALERTA QUE ESTÁ INDISPONIVEL
+    await AsyncStorage.clear()
+    // disponivel
+    //   ? navigation.navigate("AdressAndPayment", {valor: info.price})
+    //   : null // ALERTA QUE ESTÁ INDISPONIVEL
   }
 
   const headleAddCart = async () => {
     if (disponivel) {
-      setCart(inserir(info.id));
+      inserir();
       Alert.alert("Produto", "Produto adicionado ao carrinho!")
       //navigation.navigate("Cart")
     } else {

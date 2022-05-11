@@ -66,13 +66,13 @@ export const Cart = () => {
     api.get(url)
       .then(({ data }) => {
         setDataProducts([]);
-        data.map((res, indx) => {
+        data.map((res) => {
           setDataProducts(dataProducts => [...dataProducts, {
             id: res.body.id,
             title: res.body.title,
             thumbnail: res.body.thumbnail,
             price: res.body.price,
-            quantity: cartData[indx].qtd
+            quantity: cartData.find(p => p.id === res.body.id).qtd
           }])
         })
         setLoading(true);
