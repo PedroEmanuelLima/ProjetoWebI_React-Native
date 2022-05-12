@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, Image, TouchableOpacity, SafeAreaView, FlatList, Button } from 'react-native';
+import { Text, View, Image, TouchableOpacity, SafeAreaView, FlatList} from 'react-native';
 import { useState,useEffect} from 'react';
 import { Searchbar } from 'react-native-paper';
 
@@ -16,6 +16,8 @@ export const Home = ({navigation}) => {
   const [resultado, setResultado] = useState([]);
   const [textsearch, setTextSearch] = useState("");
   const [loading, setLoading] = useState(false);
+  const [imageCart, setImageCart] = useState(require("./../../assets/shopping_cart.png"))
+
 
   //const [open, setOpen] = useState(false);
 
@@ -60,6 +62,7 @@ export const Home = ({navigation}) => {
       api.get(url)
       .then(({ data }) => {
         setResultado(data.results);
+
      })}
   }, []);
 
@@ -94,7 +97,7 @@ export const Home = ({navigation}) => {
       <View style={styles.containerSearch}>
         <TouchableOpacity onPress={goCart} style={styles.containerImage}>
           <Image
-              source={require("./../../assets/shopping_cart.png")} 
+              source={imageCart} 
               style={styles.cartImage}     
           />
         </TouchableOpacity>

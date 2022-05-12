@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
+import { Text, View, SafeAreaView, FlatList, TouchableOpacity,Alert, Image } from 'react-native';
 import { useState,useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -9,17 +9,35 @@ import { CartProduct } from '../../components/CartProduct';
 import { styles } from './Styles';
 import { api } from '../../config';
 
-export const Cart = () => {
+export const Cart = ({navigation}) => {
 
   const [cartData, setCartData] = useState([]);
   const [dataProducts, setDataProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const clear = async()=>{
+    Alert.alert(
+      '',
+      'Deseja limpar tudo?', 
+      [
+        {text: 'Não'},
+        {text: 'Sim', onPress: () => {AsyncStorage.clear(), setDataProducts([])}},
+      ],
+      {cancelable: false},
+    )
+    
+  }
+
+  const headlePursh = async () => {
+      navigation.navigate("AdressAndPayment")
+  }
   
   const getData = async() =>{
     const response = await AsyncStorage.getItem('cart');
     if(response) {
       setCartData(JSON.parse(response));
     }
+    
   }
 
   const less = async (id) => {
@@ -55,11 +73,9 @@ export const Cart = () => {
 
 
   useEffect(() => {
-    async function tempFunction() {
-      await getData();
-    }
-    tempFunction();
-    return () => {};
+      setLoading(loading)
+      getData();
+    
   }, []);
 
   useEffect(() => {
@@ -112,12 +128,8 @@ export const Cart = () => {
         translucent = {false}
         networkActivityIndicatorVisible = {true}
       />
-       
-        { (dataProducts.length <= 0 && !loading) && <Load />}
-        {
-            dataProducts.length <= 0 && loading
-            ? <CartEmpty/> 
-            : (
+      {loading && dataProducts.length === 0 && <Load/> ? <Load/> && <CartEmpty/>: 
+
                 <View style={styles.container}>
                   <SafeAreaView style={styles.content}>
                       <FlatList
@@ -127,13 +139,15 @@ export const Cart = () => {
                       />
                   </SafeAreaView>
 
-                  <TouchableOpacity style={styles.buttonBuy}>
+                  <TouchableOpacity style={styles.buttonClear} onPress={clear}>
+                    <Text style={styles.titleBuy}>Limpar Tudo</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity style={styles.buttonBuy} onPress={headlePursh}>
                     <Text style={styles.titleBuy}>Finalizar Compra</Text>
                   </TouchableOpacity>
                 </View>
-            )
         }
-  
     </View>
   );
 }

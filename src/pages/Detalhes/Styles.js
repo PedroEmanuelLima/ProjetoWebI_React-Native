@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     buttonBuy: {
       width:"80%",
       height:"5%",
-      borderRadius:10,
+      borderRadius:30,
       borderWidth:1,
       borderColor:"#fff",
       justifyContent:"center",
@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
     buttonCart: {
       width:"80%",
       height:"5%",
-      borderRadius:10,
+      borderRadius:30,
       borderWidth:1,
       borderColor:"#fff",
       justifyContent:"center",

@@ -12,7 +12,7 @@ export const Detalhes = ({route,navigation}) => {
   const [disponivel, setDisponivel] = useState(true);
 
 
-  function inserir(){
+  const inserir= async()=>{
     let savedItems = [];
     let item = {}
     AsyncStorage.getItem('cart')
@@ -36,18 +36,18 @@ export const Detalhes = ({route,navigation}) => {
   }, [])
 
   const headlePursh = async () => {
-    await AsyncStorage.clear()
-    // disponivel
-    //   ? navigation.navigate("AdressAndPayment", {valor: info.price})
-    //   : null // ALERTA QUE ESTÁ INDISPONIVEL
+    disponivel
+    ? navigation.navigate("AdressAndPayment", {valor: info.price})
+    : null // ALERTA QUE ESTÁ INDISPONIVEL
   }
 
   const headleAddCart = async () => {
     if (disponivel) {
       inserir();
       Alert.alert("Produto", "Produto adicionado ao carrinho!")
+
     } else {
-      // ALERTA QUE ESTÀ INDISPONIVEL
+      Alert.alert("Erro", "Produto indisponível!")
     }
   }
 

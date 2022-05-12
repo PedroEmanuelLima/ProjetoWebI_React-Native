@@ -1,14 +1,15 @@
 import React from "react";
-import { Button, TouchableOpacity, Text, Image } from "react-native";
+import {TouchableOpacity, Image, Alert } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator} from '@react-navigation/native-stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator()
 
 import { Home } from './src/pages/Home/Home';
 import { Detalhes } from './src/pages/Detalhes/Detalhes';
 import { Cart } from './src/pages/Cart/Cart'
-import { AdressAndPayment } from "./src/pages/AdressAndPayment/AdressAndPayment";
+import { AdressAndPayment } from "./src/pages/AdressAndPayment/AdressAndPayment";;
 
 export default function App() {
 
@@ -45,7 +46,7 @@ export default function App() {
         }}/>
 
         <Stack.Screen name='AdressAndPayment' component={AdressAndPayment} options={{
-          title: 'Inormações da Compra',
+          title: 'Informações da Compra',
           headerStyle: {backgroundColor: 'rgb(3,147,213)'},
           headerTintColor: '#fff',
           headerTitleAlign: 'center',

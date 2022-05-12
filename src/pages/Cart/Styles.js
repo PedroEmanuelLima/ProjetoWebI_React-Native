@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     
     buttonBuy: {
         width:"80%",
-        borderRadius:10,
+        borderRadius:30,
         borderWidth:1,
         borderColor:"#fff",
         justifyContent:"center",
@@ -24,7 +24,20 @@ export const styles = StyleSheet.create({
         marginTop:10,
         padding: 15
       },
-    
+
+      buttonClear: {
+        width:"80%",
+        borderRadius:30,
+        borderWidth:1,
+        borderColor:"#fff",
+        justifyContent:"center",
+        alignItems:"center",
+        alignSelf:"center",
+        backgroundColor:"red",
+        marginTop:10,
+        padding: 15
+      },
+
       titleBuy: {
         fontSize:20,
         textAlign: 'center',
