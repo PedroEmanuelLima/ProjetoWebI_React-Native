@@ -31,51 +31,39 @@ export const Cart = ({navigation}) => {
   const headlePursh = async () => {
       navigation.navigate("AdressAndPayment")
   }
-  
-  const getData = async() =>{
-    const response = await AsyncStorage.getItem('cart');
-    if(response) {
-      setCartData(JSON.parse(response));
-    }
-    
+
+  const less = (id, setQuant) => {
+    AsyncStorage.getItem('cart')
+      .then(res => {
+        let savedItems = JSON.parse(res);
+        let item = savedItems.find(i => i.id === id)
+        const qtt = item.qtd -= 1;
+        setQuant(qtt);
+        if (qtt <= 0) savedItems = savedItems.filter(i => i.id !== id);
+        AsyncStorage.setItem('cart', JSON.stringify(savedItems));
+      });
   }
 
-  const less = async (id) => {
-    let savedItems = [];
-    const response = await AsyncStorage.getItem('cart');
-    savedItems = JSON.parse(response);
-    const item = savedItems.find( p => p.id === id );
-    const index = savedItems.indexOf(item);
-    savedItems.splice(index, index+1);
-    
-    if (item.qtd-1 > 0) {
-      savedItems.push({ id: item.id, qtd: item.qtd-1 });
-    }
-
-    await AsyncStorage.setItem('cart', JSON.stringify(savedItems));
-    setCartData(savedItems);
-  }
-
-  const more = async (id) => {
-    let savedItems = [];
-    const response = await AsyncStorage.getItem('cart');
-    
-    if(response) savedItems = JSON.parse(response);
-
-    const item = savedItems.find( p => p.id === id );
-    const index = savedItems.indexOf(item);
-    savedItems.splice(index, index+1);
-    savedItems.push({ id: item.id, qtd: item.qtd+1 });
-
-    await AsyncStorage.setItem('cart', JSON.stringify(savedItems));
-    setCartData(savedItems);
+  const more = (id, setQuant) => {
+    AsyncStorage.getItem('cart')
+      .then(res => {
+        let savedItems = JSON.parse(res);
+        let item = savedItems.find(i => i.id === id)
+        setQuant(item.qtd += 1);
+        AsyncStorage.setItem('cart', JSON.stringify(savedItems));
+      });
   }
 
 
   useEffect(() => {
-      setLoading(loading)
-      getData();
-    
+    setLoading(true);
+    const getData = async() =>{
+      const response = await AsyncStorage.getItem('cart');
+      if(response) {
+        setCartData(JSON.parse(response));
+      } 
+    }
+    getData();
   }, []);
 
   useEffect(() => {
@@ -86,7 +74,7 @@ export const Cart = ({navigation}) => {
     
     api.get(url)
       .then(({ data }) => {
-        setDataProducts([]);
+        setLoading(false)
         data.map((res) => {
           setDataProducts(dataProducts => [...dataProducts, {
             id: res.body.id,
@@ -96,11 +84,10 @@ export const Cart = ({navigation}) => {
             quantity: cartData.find(p => p.id === res.body.id).qtd
           }])
         })
-        setLoading(true);
       })
       .catch((er) => {
+        setLoading(false)
         setDataProducts([]);
-        setLoading(true);
       });
 
     }, [cartData]);
@@ -128,25 +115,26 @@ export const Cart = ({navigation}) => {
         translucent = {false}
         networkActivityIndicatorVisible = {true}
       />
-      {loading && dataProducts.length === 0 && <Load/> ? <Load/> && <CartEmpty/>: 
+      { (loading && dataProducts.length <= 0) && <Load/>}
+      { (!loading && dataProducts.length <= 0) && <CartEmpty />}
+      { (!loading && dataProducts.length > 0)
+        && <View style={styles.container}>
+              <SafeAreaView style={styles.content}>
+                  <FlatList
+                      data={dataProducts}
+                      keyExtractor={(item) => item.id}
+                      renderItem={renderItem}
+                  />
+              </SafeAreaView>
 
-                <View style={styles.container}>
-                  <SafeAreaView style={styles.content}>
-                      <FlatList
-                          data={dataProducts}
-                          keyExtractor={(item) => item.id}
-                          renderItem={renderItem}
-                      />
-                  </SafeAreaView>
+              <TouchableOpacity style={styles.buttonClear} onPress={clear}>
+                <Text style={styles.titleBuy}>Limpar Tudo</Text>
+              </TouchableOpacity>
 
-                  <TouchableOpacity style={styles.buttonClear} onPress={clear}>
-                    <Text style={styles.titleBuy}>Limpar Tudo</Text>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity style={styles.buttonBuy} onPress={headlePursh}>
-                    <Text style={styles.titleBuy}>Finalizar Compra</Text>
-                  </TouchableOpacity>
-                </View>
+              <TouchableOpacity style={styles.buttonBuy} onPress={headlePursh}>
+                <Text style={styles.titleBuy}>Finalizar Compra</Text>
+              </TouchableOpacity>
+            </View>
         }
     </View>
   );

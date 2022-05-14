@@ -16,23 +16,7 @@ export const Home = ({navigation}) => {
   const [resultado, setResultado] = useState([]);
   const [textsearch, setTextSearch] = useState("");
   const [loading, setLoading] = useState(false);
-  const [imageCart, setImageCart] = useState(require("./../../assets/shopping_cart.png"))
-
-
-  //const [open, setOpen] = useState(false);
-
-  /*const showDatePicker = () => {
-    setOpen(true);
-  };
-
-  const hideDatePicker = () => {
-    setOpen(false);
-  };
-
-  const handleConfirm = (date) => {
-    console.log("A date selecionada foi: ", date);
-    hideDatePicker();
-  };*/
+  const imageCart = require("./../../assets/shopping_cart.png");
 
   const produtos = () =>{
     let url = `sites/MLB/search?q=${textsearch}`;
