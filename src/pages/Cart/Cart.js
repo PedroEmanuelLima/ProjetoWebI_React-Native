@@ -17,46 +17,44 @@ export const Cart = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [empty, setEmpty] = useState(false);
 
-  const clear = async()=>{
+  const clear = ()=>{
+    AsyncStorage.clear(), 
+    setDataProducts([]),
+    setEmpty(true)
+  }
+
+  const clearAll = async()=>{
     Alert.alert(
       '',
       'Deseja limpar tudo?', 
       [
         {text: 'Não'},
-        {text: 'Sim', onPress: () => {AsyncStorage.clear(), setDataProducts([]), setEmpty(true)}},
+        {text: 'Sim', onPress: clear},
       ],
       {cancelable: false},
     )
     
   }
 
-  const headlePursh = async () => {
-    getData()
+  const headlePursh = () =>{
+    getData();
     let val = 0;
-    if (dataProducts.length===1){
-      const data= JSON.stringify(dataProducts).replace('[',"").replace(']',"")
-      const v = JSON.parse(data)
-      navigation.navigate("AdressAndPayment", {valor:v.price*v.quantity})
-    }
-    if (dataProducts.length>1){
+    if (dataProducts.length>=1){
       const data = JSON.stringify(dataProducts)
       const v = JSON.parse(data)
       for(let i=0;i<dataProducts.length;i++){
         val+=v[i].price*v[i].quantity
         const va = val
         navigation.navigate("AdressAndPayment", {valor:va})
-      }
+        }
     }
-      
   }
 
   const isEmpty = async () => {
     const response = await AsyncStorage.getItem('cart');
     const savedItems = JSON.parse(response);
     if (savedItems.length <= 0) {
-      AsyncStorage.clear();
-      setEmpty(true);
-      setDataProducts([]);
+      clear();
     }
       
   }
@@ -117,7 +115,7 @@ export const Cart = ({navigation}) => {
     
     api.get(url)
       .then(({ data }) => {
-        setLoading(false)
+        setLoading(true)
         data.map((res) => {
           setDataProducts(dataProducts => [...dataProducts, {
             id: res.body.id,
@@ -129,7 +127,7 @@ export const Cart = ({navigation}) => {
         })
       })
       .catch((er) => {
-        setLoading(false)
+        setLoading(true)
         setDataProducts([]);
       });
 
@@ -169,12 +167,12 @@ export const Cart = ({navigation}) => {
                       />
                   </SafeAreaView>
 
-                  <TouchableOpacity style={styles.buttonClear} onPress={clear}>
+                  <TouchableOpacity style={styles.buttonClear} onPress={clearAll}>
                     <Text style={styles.titleBuy}>Limpar Tudo</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity style={styles.buttonBuy} onPress={headlePursh}>
-                    <Text style={styles.titleBuy}>Finalizar Compra</Text>
+                    <Text style={styles.titleBuy}>Continuar Compra</Text>
                   </TouchableOpacity>
                 </View>
       }
