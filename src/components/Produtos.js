@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Image, TouchableNativeFeedback, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 
 export default function Produtos ({ thumbnail, title, price, id, openProduto }) {

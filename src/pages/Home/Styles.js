@@ -57,5 +57,22 @@ export const styles = StyleSheet.create({
       borderRadius:10,
       borderWidth:3,
       borderColor:"#000"
+    },
+
+    notfoundView:{
+      flex:1, 
+      width:"100%", 
+      height:"100%", 
+      marginTop: 60
+    },
+
+    notfoundImage:{
+      alignSelf:"center"
+    },
+
+    notfoundText:{
+      marginTop:30, 
+      fontSize:20, 
+      alignSelf:"center"
     }
   });

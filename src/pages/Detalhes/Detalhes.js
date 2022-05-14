@@ -10,7 +10,7 @@ import { styles } from './Styles';
 export const Detalhes = ({route,navigation}) => {
   const {info} = route.params
   const [disponivel, setDisponivel] = useState(true);
-
+  
 
   const inserir= async()=>{
     let savedItems = [];
@@ -32,7 +32,6 @@ export const Detalhes = ({route,navigation}) => {
 
   useEffect(() => {
     setDisponivel(info.available_quantity>0);
-
   }, [])
 
   const headlePursh = async () => {
@@ -41,6 +40,7 @@ export const Detalhes = ({route,navigation}) => {
     : null // ALERTA QUE ESTÁ INDISPONIVEL
   }
 
+  {/*Alteração aqui*/}
   const headleAddCart = async () => {
     if (disponivel) {
       inserir();
@@ -61,6 +61,7 @@ export const Detalhes = ({route,navigation}) => {
         translucent = {false}
         networkActivityIndicatorVisible = {true}
       />
+
       <View style={styles.container}>
         <View>
           <Image resizeMode="contain"

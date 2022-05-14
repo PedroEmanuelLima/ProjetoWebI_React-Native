@@ -16,9 +16,20 @@ export const Home = ({navigation}) => {
   const [resultado, setResultado] = useState([]);
   const [textsearch, setTextSearch] = useState("");
   const [loading, setLoading] = useState(false);
-  const [imageCart, setImageCart] = useState(require("./../../assets/shopping_cart.png"))
 
-
+  const imageCart = require("./../../assets/shopping_cart.png")/*Alteração aqui*/
+  const notfound = require("./../../assets/notfound.png")/*Alteração aqui*/
+  
+  /*Alteração aqui*/
+  const getItems = ()=>{
+    let url = `sites/MLB/search?q=eletronicos`;
+    setLoading(true)
+    api.get(url)
+    .then(({ data }) => {
+      setResultado(data.results);
+   })
+  }
+  
   //const [open, setOpen] = useState(false);
 
   /*const showDatePicker = () => {
@@ -34,36 +45,39 @@ export const Home = ({navigation}) => {
     hideDatePicker();
   };*/
 
+  /*Alteração aqui*/
   const produtos = () =>{
+    if(textsearch===""){
+      return false
+    }
     let url = `sites/MLB/search?q=${textsearch}`;
     setResultado([]);
-    setLoading(true);
+    setLoading(true)
     api.get(url)
     .then(({ data }) => {
       setResultado(data.results);
+      if (data.results.length===0){
+        setLoading(false)
+      }
     })
 
   }
 
   const openProduto = id =>{
+
     api.get(`items/${id}`)
     .then(({ data }) => {
     let i = data
-    setLoading(true);
     navigation.navigate("Detalhes",{info:i}) 
-    })  
+    
+    })
     
   }
-  
+  /*Alteração aqui*/
   useEffect(() => {
-    let url = `sites/MLB/search?q=eletronicos`;
     if (resultado.length===0 && textsearch===""){
-      setLoading(true);
-      api.get(url)
-      .then(({ data }) => {
-        setResultado(data.results);
-
-     })}
+      getItems();
+    }
   }, []);
 
   const renderItem = ({ item }) => (
@@ -77,9 +91,11 @@ export const Home = ({navigation}) => {
     />
   );
 
-  /*const renderItem = ({ item}) => (<Produtos {...item} navigation={navigation} openProduto={openProduto}/>)*/
-
   const goCart = () => {
+    if(resultado.length===0){
+      setTextSearch("")
+      getItems();
+    }
     navigation.navigate("Cart");
   }
 
@@ -122,7 +138,19 @@ export const Home = ({navigation}) => {
 
       </View>
 
-      { (resultado.length <= 0 && textsearch.trim().length > 0 && loading) && <Load />}
+      {/*Alteração aqui*/}
+      {(resultado.length===0 && loading) && <Load />}
+      {(resultado.length===0 && !loading)?
+
+      <View style={styles.notfoundView}>
+        <Image
+        source={notfound}
+        style={styles.notfoundImage}     
+        /><Text style={styles.notfoundText}>Nenhum resultado encontrado</Text>
+       </View>:false}
+
+      {/*{(resultado.length <= 0 && textsearch.trim().length > 0 && loading) && <Load />}*/}
+
       <SafeAreaView style={styles.content}>
           <FlatList
             data={resultado}

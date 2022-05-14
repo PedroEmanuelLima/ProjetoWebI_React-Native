@@ -1,8 +1,12 @@
-import react from 'react';
 import { View, Text } from 'react-native';
 
-export const AdressAndPayment = () => {
+export const AdressAndPayment = ({route}) => {
+    const {valor} = route.params
     return(
-        <View><Text>Adress And Payment</Text></View>
+        <View style={{alignSelf:"center"}}>
+          <Text style={{alignSelf:"center", marginTop:30, fontSize:20}}>
+            VALOR TOTAL DA COMPRA: R$ {valor.toFixed(2)}
+          </Text>
+        </View>
     )
 }

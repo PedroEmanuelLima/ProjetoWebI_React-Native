@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, SafeAreaView, FlatList, TouchableOpacity,Alert, Image } from 'react-native';
+import { Text, View, SafeAreaView, FlatList, TouchableOpacity,Alert} from 'react-native';
 import { useState,useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 import { Load } from '../../components/Load';
 import { CartEmpty } from '../../components/CartEmpty';
@@ -14,6 +15,7 @@ export const Cart = ({navigation}) => {
   const [cartData, setCartData] = useState([]);
   const [dataProducts, setDataProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [empty, setEmpty] = useState(false); /*Alteração aqui*/
 
   const clear = async()=>{
     Alert.alert(
@@ -21,24 +23,51 @@ export const Cart = ({navigation}) => {
       'Deseja limpar tudo?', 
       [
         {text: 'Não'},
-        {text: 'Sim', onPress: () => {AsyncStorage.clear(), setDataProducts([])}},
+        {text: 'Sim', onPress: () => {AsyncStorage.clear(), setDataProducts([]), setEmpty(true)}},
       ],
       {cancelable: false},
     )
     
   }
+  /*Alteração aqui*/
+  const getData = async() => {
+    try {
+      const response = await AsyncStorage.getItem('cart');
 
+      if(response) {
+        const value = JSON.parse(response);
+        setCartData(value)
+        
+      }
+      if(response===null){
+        setEmpty(true)
+      }
+
+    } catch (e) {
+      alert('Falha ao capturar os produtos!');
+    }
+  };
+  
+  /*Alteração aqui*/
   const headlePursh = async () => {
-      navigation.navigate("AdressAndPayment")
+      var val = 0;
+      if (dataProducts.length===1){
+        const data= JSON.stringify(dataProducts).replace('[',"").replace(']',"")
+        const v = JSON.parse(data)
+        navigation.navigate("AdressAndPayment", {valor:v.price*v.quantity})
+      }
+      if (dataProducts.length>1){
+        const data = JSON.stringify(dataProducts)
+        const v = JSON.parse(data)
+        for(var i=0;i<dataProducts.length;i++){
+          val+=v[i].price*v[i].quantity
+          const va = val
+          navigation.navigate("AdressAndPayment", {valor:va})
+        }
+      }
+      
   }
   
-  const getData = async() =>{
-    const response = await AsyncStorage.getItem('cart');
-    if(response) {
-      setCartData(JSON.parse(response));
-    }
-    
-  }
 
   const less = async (id) => {
     let savedItems = [];
@@ -71,11 +100,8 @@ export const Cart = ({navigation}) => {
     setCartData(savedItems);
   }
 
-
   useEffect(() => {
-      setLoading(loading)
-      getData();
-    
+    getData();
   }, []);
 
   useEffect(() => {
@@ -128,8 +154,9 @@ export const Cart = ({navigation}) => {
         translucent = {false}
         networkActivityIndicatorVisible = {true}
       />
-      {loading && dataProducts.length === 0 && <Load/> ? <Load/> && <CartEmpty/>: 
-
+      {/*Alteração aqui*/}
+      {(dataProducts.length<=0 && loading && !empty) && <Load/>}
+      {(dataProducts.length<=0 && empty)?<CartEmpty/>:
                 <View style={styles.container}>
                   <SafeAreaView style={styles.content}>
                       <FlatList
@@ -147,7 +174,7 @@ export const Cart = ({navigation}) => {
                     <Text style={styles.titleBuy}>Finalizar Compra</Text>
                   </TouchableOpacity>
                 </View>
-        }
+      }
     </View>
   );
 }
