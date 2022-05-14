@@ -29,26 +29,7 @@ export const Cart = ({navigation}) => {
     )
     
   }
-  /*Alteração aqui*/
-  const getData = async() => {
-    try {
-      const response = await AsyncStorage.getItem('cart');
 
-      if(response) {
-        const value = JSON.parse(response);
-        setCartData(value)
-        
-      }
-      if(response===null){
-        setEmpty(true)
-      }
-
-    } catch (e) {
-      alert('Falha ao capturar os produtos!');
-    }
-  };
-  
-  /*Alteração aqui*/
   const headlePursh = async () => {
       var val = 0;
       if (dataProducts.length===1){
@@ -67,40 +48,48 @@ export const Cart = ({navigation}) => {
       }
       
   }
-  
 
-  const less = async (id) => {
-    let savedItems = [];
-    const response = await AsyncStorage.getItem('cart');
-    savedItems = JSON.parse(response);
-    const item = savedItems.find( p => p.id === id );
-    const index = savedItems.indexOf(item);
-    savedItems.splice(index, index+1);
-    
-    if (item.qtd-1 > 0) {
-      savedItems.push({ id: item.id, qtd: item.qtd-1 });
-    }
-
-    await AsyncStorage.setItem('cart', JSON.stringify(savedItems));
-    setCartData(savedItems);
+  const less = (id, setQuant) => {
+    AsyncStorage.getItem('cart')
+      .then(res => {
+        let savedItems = JSON.parse(res);
+        let item = savedItems.find(i => i.id === id)
+        const qtt = item.qtd -= 1;
+        setQuant(qtt);
+        if (qtt <= 0) savedItems = savedItems.filter(i => i.id !== id);
+        AsyncStorage.setItem('cart', JSON.stringify(savedItems));
+      });
   }
 
-  const more = async (id) => {
-    let savedItems = [];
-    const response = await AsyncStorage.getItem('cart');
-    
-    if(response) savedItems = JSON.parse(response);
-
-    const item = savedItems.find( p => p.id === id );
-    const index = savedItems.indexOf(item);
-    savedItems.splice(index, index+1);
-    savedItems.push({ id: item.id, qtd: item.qtd+1 });
-
-    await AsyncStorage.setItem('cart', JSON.stringify(savedItems));
-    setCartData(savedItems);
+  const more = (id, setQuant) => {
+    AsyncStorage.getItem('cart')
+      .then(res => {
+        let savedItems = JSON.parse(res);
+        let item = savedItems.find(i => i.id === id)
+        setQuant(item.qtd += 1);
+        AsyncStorage.setItem('cart', JSON.stringify(savedItems));
+      });
   }
 
   useEffect(() => {
+    const getData = async() => {
+      try {
+        const response = await AsyncStorage.getItem('cart');
+  
+        if(response) {
+          const value = JSON.parse(response);
+          setCartData(value)
+          
+        }
+        if(response===null){
+          setEmpty(true)
+        }
+  
+      } catch (e) {
+        alert('Falha ao capturar os produtos!');
+      }
+    };
+
     getData();
   }, []);
 
@@ -112,7 +101,7 @@ export const Cart = ({navigation}) => {
     
     api.get(url)
       .then(({ data }) => {
-        setDataProducts([]);
+        setLoading(false)
         data.map((res) => {
           setDataProducts(dataProducts => [...dataProducts, {
             id: res.body.id,
@@ -122,11 +111,10 @@ export const Cart = ({navigation}) => {
             quantity: cartData.find(p => p.id === res.body.id).qtd
           }])
         })
-        setLoading(true);
       })
       .catch((er) => {
+        setLoading(false)
         setDataProducts([]);
-        setLoading(true);
       });
 
     }, [cartData]);
@@ -154,7 +142,6 @@ export const Cart = ({navigation}) => {
         translucent = {false}
         networkActivityIndicatorVisible = {true}
       />
-      {/*Alteração aqui*/}
       {(dataProducts.length<=0 && loading && !empty) && <Load/>}
       {(dataProducts.length<=0 && empty)?<CartEmpty/>:
                 <View style={styles.container}>

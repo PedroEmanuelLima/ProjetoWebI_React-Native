@@ -6,42 +6,46 @@ export const CartProduct = ({ id, thumbnail, title, price, quantity, less, more 
     const [quantityProduct, setQuantityProduct] = useState(quantity)
 
     const headleLess = () => {
-        less(id);
-      }
+        less(id, setQuantityProduct);
+    }
     
-      const headleMore = () => {
-        more(id);
-      }
+    const headleMore = () => {
+        more(id, setQuantityProduct);
+    }
 
     return(
-        <View style={styles.container}>
-            <View style={styles.imageContainer}>
-                <Image
-                    style={styles.image}
-                    resizeMode="contain"
-                    source={{uri:thumbnail}}
-                /> 
-            </View>
-
-            <View style={styles.informations}>
-                <View>
-                    <Text style={styles.titleStyle}>{title}</Text>
+        <>
+        { quantityProduct <= 0 ? null :
+            <View style={styles.container}>
+                <View style={styles.imageContainer}>
+                    <Image
+                        style={styles.image}
+                        resizeMode="contain"
+                        source={{uri:thumbnail}}
+                    /> 
                 </View>
 
-
-                <View style={styles.quantityAndPrice}>
-                    <View style={styles.quantityDisplay}>
-                            <TouchableOpacity onPress={headleLess}><Text style={styles.headleLess}>-</Text></TouchableOpacity>
-                            <Text style={styles.quantity}>{quantityProduct}</Text>
-                            <TouchableOpacity onPress={headleMore}><Text style={styles.headleMore}>+</Text></TouchableOpacity>
-                    </View>
-
+                <View style={styles.informations}>
                     <View>
-                        <Text style={styles.price}>{(price*quantityProduct).toFixed(2).replace(".",",")}</Text>
+                        <Text style={styles.titleStyle}>{title}</Text>
+                    </View>
+
+
+                    <View style={styles.quantityAndPrice}>
+                        <View style={styles.quantityDisplay}>
+                                <TouchableOpacity onPress={headleLess}><Text style={styles.headleLess}>-</Text></TouchableOpacity>
+                                <Text style={styles.quantity}>{quantityProduct}</Text>
+                                <TouchableOpacity onPress={headleMore}><Text style={styles.headleMore}>+</Text></TouchableOpacity>
+                        </View>
+
+                        <View>
+                            <Text style={styles.price}>{(price*quantityProduct).toFixed(2).replace(".",",")}</Text>
+                        </View>
                     </View>
                 </View>
             </View>
-        </View>
+        }
+        </>
     );
 }
 

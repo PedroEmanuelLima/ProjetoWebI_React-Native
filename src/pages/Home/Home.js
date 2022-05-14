@@ -17,18 +17,8 @@ export const Home = ({navigation}) => {
   const [textsearch, setTextSearch] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const imageCart = require("./../../assets/shopping_cart.png")/*Alteração aqui*/
-  const notfound = require("./../../assets/notfound.png")/*Alteração aqui*/
-  
-  /*Alteração aqui*/
-  const getItems = ()=>{
-    let url = `sites/MLB/search?q=eletronicos`;
-    setLoading(true)
-    api.get(url)
-    .then(({ data }) => {
-      setResultado(data.results);
-   })
-  }
+  const imageCart = require("./../../assets/shopping_cart.png")
+  const notfound = require("./../../assets/notfound.png")
   
   //const [open, setOpen] = useState(false);
 
@@ -45,7 +35,6 @@ export const Home = ({navigation}) => {
     hideDatePicker();
   };*/
 
-  /*Alteração aqui*/
   const produtos = () =>{
     if(textsearch===""){
       return false
@@ -75,6 +64,15 @@ export const Home = ({navigation}) => {
   }
   /*Alteração aqui*/
   useEffect(() => {
+    const getItems = ()=>{
+      let url = `sites/MLB/search?q=eletronicos`;
+      setLoading(true)
+      api.get(url)
+      .then(({ data }) => {
+        setResultado(data.results);
+     })
+    }
+
     if (resultado.length===0 && textsearch===""){
       getItems();
     }
@@ -138,7 +136,6 @@ export const Home = ({navigation}) => {
 
       </View>
 
-      {/*Alteração aqui*/}
       {(resultado.length===0 && loading) && <Load />}
       {(resultado.length===0 && !loading)?
 
@@ -148,8 +145,6 @@ export const Home = ({navigation}) => {
         style={styles.notfoundImage}     
         /><Text style={styles.notfoundText}>Nenhum resultado encontrado</Text>
        </View>:false}
-
-      {/*{(resultado.length <= 0 && textsearch.trim().length > 0 && loading) && <Load />}*/}
 
       <SafeAreaView style={styles.content}>
           <FlatList
