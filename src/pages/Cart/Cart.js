@@ -15,7 +15,7 @@ export const Cart = ({navigation}) => {
   const [cartData, setCartData] = useState([]);
   const [dataProducts, setDataProducts] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [empty, setEmpty] = useState(false); /*Alteração aqui*/
+  const [empty, setEmpty] = useState(false);
 
   const clear = async()=>{
     Alert.alert(
@@ -31,21 +31,33 @@ export const Cart = ({navigation}) => {
   }
 
   const headlePursh = async () => {
-      var val = 0;
-      if (dataProducts.length===1){
-        const data= JSON.stringify(dataProducts).replace('[',"").replace(']',"")
-        const v = JSON.parse(data)
-        navigation.navigate("AdressAndPayment", {valor:v.price*v.quantity})
+    getData()
+    let val = 0;
+    if (dataProducts.length===1){
+      const data= JSON.stringify(dataProducts).replace('[',"").replace(']',"")
+      const v = JSON.parse(data)
+      navigation.navigate("AdressAndPayment", {valor:v.price*v.quantity})
+    }
+    if (dataProducts.length>1){
+      const data = JSON.stringify(dataProducts)
+      const v = JSON.parse(data)
+      for(let i=0;i<dataProducts.length;i++){
+        val+=v[i].price*v[i].quantity
+        const va = val
+        navigation.navigate("AdressAndPayment", {valor:va})
       }
-      if (dataProducts.length>1){
-        const data = JSON.stringify(dataProducts)
-        const v = JSON.parse(data)
-        for(var i=0;i<dataProducts.length;i++){
-          val+=v[i].price*v[i].quantity
-          const va = val
-          navigation.navigate("AdressAndPayment", {valor:va})
-        }
-      }
+    }
+      
+  }
+
+  const isEmpty = async () => {
+    const response = await AsyncStorage.getItem('cart');
+    const savedItems = JSON.parse(response);
+    if (savedItems.length <= 0) {
+      AsyncStorage.clear();
+      setEmpty(true);
+      setDataProducts([]);
+    }
       
   }
 
@@ -56,8 +68,11 @@ export const Cart = ({navigation}) => {
         let item = savedItems.find(i => i.id === id)
         const qtt = item.qtd -= 1;
         setQuant(qtt);
-        if (qtt <= 0) savedItems = savedItems.filter(i => i.id !== id);
+        if (qtt <= 0) {
+          savedItems = savedItems.filter(i => i.id !== id);
+        }
         AsyncStorage.setItem('cart', JSON.stringify(savedItems));
+        isEmpty();
       });
   }
 
@@ -71,25 +86,26 @@ export const Cart = ({navigation}) => {
       });
   }
 
-  useEffect(() => {
-    const getData = async() => {
-      try {
-        const response = await AsyncStorage.getItem('cart');
-  
-        if(response) {
-          const value = JSON.parse(response);
-          setCartData(value)
-          
-        }
-        if(response===null){
-          setEmpty(true)
-        }
-  
-      } catch (e) {
-        alert('Falha ao capturar os produtos!');
-      }
-    };
+  const getData = async() => {
+    try {
+      const response = await AsyncStorage.getItem('cart');
+      setDataProducts([]);
 
+      if(response) {
+        const value = JSON.parse(response);
+        setCartData(value)
+        
+      }
+      if(response===null){
+        setEmpty(true)
+      }
+
+    } catch (e) {
+      alert('Falha ao capturar os produtos!');
+    }
+  };
+
+  useEffect(() => {
     getData();
   }, []);
 
