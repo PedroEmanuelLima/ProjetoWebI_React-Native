@@ -36,18 +36,24 @@ export const Cart = ({navigation}) => {
     
   }
 
+  const getQuantt = () => {
+    const response = AsyncStorage.getItem('cart')
+      .then(res => {
+        const lista = JSON.parse(res)
+        let value = 0;
+        lista.map(l => {
+          value += (dataProducts.find(p => p.id === l.id).price * l.qtd)
+        })
+        return value;
+      })
+
+    return response;
+  }
+
   const headlePursh = () =>{
-    getData();
-    let val = 0;
-    if (dataProducts.length>=1){
-      const data = JSON.stringify(dataProducts)
-      const v = JSON.parse(data)
-      for(let i=0;i<dataProducts.length;i++){
-        val+=v[i].price*v[i].quantity
-        const va = val
-        navigation.navigate("AdressAndPayment", {valor:va})
-        }
-    }
+    getQuantt().then(res => {
+    navigation.navigate("AdressAndPayment", {valor: res});
+    })
   }
 
   const isEmpty = async () => {
@@ -69,6 +75,7 @@ export const Cart = ({navigation}) => {
         if (qtt <= 0) {
           savedItems = savedItems.filter(i => i.id !== id);
         }
+        // setValueTotal(valueTotal - (dataProducts.find(i => i.id === id).price));
         AsyncStorage.setItem('cart', JSON.stringify(savedItems));
         isEmpty();
       });
@@ -93,13 +100,12 @@ export const Cart = ({navigation}) => {
         const value = JSON.parse(response);
         setCartData(value)
         
-      }
-      if(response===null){
-        setEmpty(true)
+      } else {
+        setEmpty(true);
       }
 
     } catch (e) {
-      alert('Falha ao capturar os produtos!');
+      setEmpty(true);
     }
   };
 
@@ -124,6 +130,7 @@ export const Cart = ({navigation}) => {
             price: res.body.price,
             quantity: cartData.find(p => p.id === res.body.id).qtd
           }])
+
         })
       })
       .catch((er) => {
