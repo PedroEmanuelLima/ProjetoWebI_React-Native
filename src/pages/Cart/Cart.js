@@ -1,3 +1,4 @@
+import React from "react";
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, SafeAreaView, FlatList, TouchableOpacity,Alert} from 'react-native';
 import { useState,useEffect} from 'react';
@@ -99,9 +100,11 @@ export const Cart = ({navigation}) => {
       if(response) {
         const value = JSON.parse(response);
         setCartData(value)
+        setLoading(false)
         
       } else {
         setEmpty(true);
+        setLoading(false)
       }
 
     } catch (e) {
@@ -129,8 +132,9 @@ export const Cart = ({navigation}) => {
             thumbnail: res.body.thumbnail,
             price: res.body.price,
             quantity: cartData.find(p => p.id === res.body.id).qtd
+            
           }])
-
+          
         })
       })
       .catch((er) => {

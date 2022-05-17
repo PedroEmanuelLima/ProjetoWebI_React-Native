@@ -1,5 +1,5 @@
 import React from "react";
-import {TouchableOpacity, Image, Alert } from "react-native";
+import {TouchableOpacity, Image} from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -8,7 +8,7 @@ const Stack = createNativeStackNavigator()
 import { Home } from './src/pages/Home/Home';
 import { Detalhes } from './src/pages/Detalhes/Detalhes';
 import { Cart } from './src/pages/Cart/Cart'
-import { AdressAndPayment } from "./src/pages/AdressAndPayment/AdressAndPayment";;
+import { AdressAndPayment } from "./src/pages/AdressAndPayment/AdressAndPayment";
 
 export default function App() {
 

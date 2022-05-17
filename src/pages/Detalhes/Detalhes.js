@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, Image, TouchableOpacity, Alert } from 'react-native';
@@ -32,7 +33,7 @@ export const Detalhes = ({route,navigation}) => {
 
   useEffect(() => {
     setDisponivel(info.available_quantity>0);
-  }, [])
+  }, [info.available_quantity])
 
   const headlePursh = async () => {
     disponivel

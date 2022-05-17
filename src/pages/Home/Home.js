@@ -1,5 +1,6 @@
+import React from "react";
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, Image, TouchableOpacity, SafeAreaView, FlatList} from 'react-native';
+import { Text, View, Image, TouchableOpacity, SafeAreaView, FlatList, Button} from 'react-native';
 import { useState,useEffect} from 'react';
 import { Searchbar } from 'react-native-paper';
 
@@ -8,32 +9,37 @@ import Produtos from './../../components/Produtos';
 import { Load } from '../../components/Load';
 import { api } from '../../config';
 
-//import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 
 export const Home = ({navigation}) => {
 
+  const dateFormat = (data) =>{
+    const dia  = data.getDate().toString();
+    const diaF = (dia.length == 1) ? '0'+dia : dia;
+    const mes  = (data.getMonth()+1).toString();
+    const mesF = (mes.length == 1) ? '0'+mes : mes;
+    const anoF = data.getFullYear();
+    return anoF+"-"+mesF+"-"+diaF;
+  }
+  
   const [resultado, setResultado] = useState([]);
   const [textsearch, setTextSearch] = useState("");
   const [loading, setLoading] = useState(false);
-
   const imageCart = require("./../../assets/shopping_cart.png")
   const notfound = require("./../../assets/notfound.png")
   
-  //const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [dateSelect, setDateSelect] = useState(new Date());
 
-  /*const showDatePicker = () => {
-    setOpen(true);
-  };
-
-  const hideDatePicker = () => {
-    setOpen(false);
-  };
 
   const handleConfirm = (date) => {
-    console.log("A date selecionada foi: ", date);
-    hideDatePicker();
-  };*/
+    setOpen(false);
+    setDateSelect(date);
+    setResultado([]);
+    getItems();
+    console.log("A data selecionada foi: ", dateFormat(date)); 
+  };
 
   const produtos = () =>{
     if(textsearch===""){
@@ -45,9 +51,7 @@ export const Home = ({navigation}) => {
     api.get(url)
     .then(({ data }) => {
       setResultado(data.results);
-      if (data.results.length===0){
-        setLoading(false)
-      }
+      setLoading(false)
     })
 
   }
@@ -62,21 +66,22 @@ export const Home = ({navigation}) => {
     })
     
   }
-  /*Alteração aqui*/
-  useEffect(() => {
-    const getItems = ()=>{
-      let url = `sites/MLB/search?q=eletronicos`;
-      setLoading(true)
-      api.get(url)
-      .then(({ data }) => {
-        setResultado(data.results);
-     })
-    }
 
+  const getItems = ()=>{
+    let url = `sites/MLB/search?q=eletronicos`;
+    setLoading(true)
+    api.get(url)
+    .then(({ data }) => {
+      setResultado(data.results);
+      setLoading(false)
+   })
+  }
+
+  useEffect(() => {
     if (resultado.length===0 && textsearch===""){
       getItems();
     }
-  }, []);
+  }, [resultado.length, textsearch]);
 
   const renderItem = ({ item }) => (
     <Produtos
@@ -126,13 +131,14 @@ export const Home = ({navigation}) => {
         
         />
 
-        {/*<Button title="Exibir Calendário" onPress={showDatePicker} />
+        <Button title="Filtrar produtos por Data" onPress={()=> setOpen(true)} />
         <DateTimePickerModal
+          date={dateSelect}
           isVisible={open}
           mode="date"
           onConfirm={handleConfirm}
-          onCancel={hideDatePicker}
-        />*/}
+          onCancel={()=>setOpen(false)}
+        />
 
       </View>
 

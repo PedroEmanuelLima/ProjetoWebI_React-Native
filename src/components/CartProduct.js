@@ -1,4 +1,5 @@
-import react, { useState } from "react";
+import React from "react";
+import { useState } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 
 export const CartProduct = ({ id, thumbnail, title, price, quantity, less, more }) => {
