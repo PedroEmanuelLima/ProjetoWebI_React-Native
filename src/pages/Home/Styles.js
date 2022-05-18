@@ -74,5 +74,29 @@ export const styles = StyleSheet.create({
       marginTop:30, 
       fontSize:20, 
       alignSelf:"center"
+    },
+
+    viewFilter:{
+      flexDirection:"row", 
+      justifyContent:"space-around",
+      marginBottom:10,
+
+    },
+
+    buttonFilter:{
+      width:200, 
+      height:50, 
+      backgroundColor:"rgb(89,205,255)",
+      borderRadius:30,
+      alignItems:"center",
+      padding:12
+    },
+
+    textFilter: {
+      textAlign:"center", 
+      fontSize:15,
+      fontWeight:"400"
     }
+
+
   });

@@ -14,13 +14,13 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 export const Home = ({navigation}) => {
 
-  const dateFormat = (data) =>{
-    const dia  = data.getDate().toString();
+  const dateFormat = (date) =>{
+    const dia  = date.getDate().toString();
     const diaF = (dia.length == 1) ? '0'+dia : dia;
-    const mes  = (data.getMonth()+1).toString();
+    const mes  = (date.getMonth()+1).toString();
     const mesF = (mes.length == 1) ? '0'+mes : mes;
-    const anoF = data.getFullYear();
-    return anoF+"-"+mesF+"-"+diaF;
+    const anoF = date.getFullYear();
+    return {ano: anoF, mes: mesF, dia: diaF};
   }
   
   const [resultado, setResultado] = useState([]);
@@ -31,15 +31,48 @@ export const Home = ({navigation}) => {
   
   const [open, setOpen] = useState(false);
   const [dateSelect, setDateSelect] = useState(new Date());
+  const [restore,setRestore] = useState([])
 
+  const dateProductsDate = (date) =>{
+    setResultado([])
+    setLoading(true)
+    let url = 'items?ids=';
+    resultado.map((item,index) => {
+      index < 1 ? url += item.id : index<20? url += ','+item.id : false
+    })
+    api.get(url)
+    .then(({ data }) => {
+      data.map((res) => {
 
+        const filter = [...filter, {
+          id: res.body.id,
+          title: res.body.title,
+          thumbnail: res.body.thumbnail,
+          price: res.body.price,
+          date_c: res.body.date_created
+          
+        }]
+        const date_c = new Date(res.body.date_created);
+        dateFormat(date_c) === dateFormat(date)? setResultado(filter): setLoading(false);
+        console.log(dateFormat(date_c))
+        
+      })
+    })
+  }
+  
+  const openFilter = () =>{
+    setOpen(true);
+    setResultado(restore);
+    
+   
+  }
   const handleConfirm = (date) => {
     setOpen(false);
     setDateSelect(date);
-    setResultado([]);
-    getItems();
-    console.log("A data selecionada foi: ", dateFormat(date)); 
+    dateProductsDate(date);
+
   };
+
 
   const produtos = () =>{
     if(textsearch===""){
@@ -51,6 +84,7 @@ export const Home = ({navigation}) => {
     api.get(url)
     .then(({ data }) => {
       setResultado(data.results);
+      setRestore(data.results);
       setLoading(false)
     })
 
@@ -73,7 +107,9 @@ export const Home = ({navigation}) => {
     api.get(url)
     .then(({ data }) => {
       setResultado(data.results);
+      setRestore(data.results);
       setLoading(false)
+      
    })
   }
 
@@ -81,7 +117,7 @@ export const Home = ({navigation}) => {
     if (resultado.length===0 && textsearch===""){
       getItems();
     }
-  }, [resultado.length, textsearch]);
+  }, []);
 
   const renderItem = ({ item }) => (
     <Produtos
@@ -131,7 +167,12 @@ export const Home = ({navigation}) => {
         
         />
 
-        <Button title="Filtrar produtos por Data" onPress={()=> setOpen(true)} />
+        <View style={styles.viewFilter}>
+          <TouchableOpacity style={styles.buttonFilter} onPress={openFilter}>
+                <Text style={styles.textFilter}> Filtrar produtos por Data</Text>
+          </TouchableOpacity>
+        </View>
+
         <DateTimePickerModal
           date={dateSelect}
           isVisible={open}
