@@ -45,7 +45,7 @@ export default function StackNavigation() {
         }}/>
 
         <Stack.Screen name='AdressAndPayment' component={AdressAndPayment} options={{
-          title: 'Informações da Compra',
+          title: 'Informações de Pagamento',
           headerStyle: {backgroundColor: 'rgb(3,147,213)'},
           headerTintColor: '#fff',
           headerTitleAlign: 'center',

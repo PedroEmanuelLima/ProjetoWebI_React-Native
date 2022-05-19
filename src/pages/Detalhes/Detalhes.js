@@ -27,7 +27,13 @@ export const Detalhes = ({route,navigation}) => {
             savedItems.push({ id: info.id, qtd: 1 });
           }
         } else { savedItems.push({ id: info.id, qtd: 1 }); }
-        AsyncStorage.setItem('cart', JSON.stringify(savedItems));
+        if (savedItems.length<=20){
+          AsyncStorage.setItem('cart', JSON.stringify(savedItems));
+          Alert.alert("Produto", "Produto adicionado ao carrinho!")
+        }
+        else{
+          Alert.alert("ATENÇÃO", "CARRINHO ESTÁ CHEIO!")
+        }
       });
   }
 
@@ -45,7 +51,6 @@ export const Detalhes = ({route,navigation}) => {
   const headleAddCart = async () => {
     if (disponivel) {
       inserir();
-      Alert.alert("Produto", "Produto adicionado ao carrinho!")
 
     } else {
       Alert.alert("Erro", "Produto indisponível!")

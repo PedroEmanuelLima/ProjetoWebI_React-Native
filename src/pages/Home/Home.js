@@ -20,13 +20,14 @@ export const Home = ({navigation}) => {
     const mes  = (date.getMonth()+1).toString();
     const mesF = (mes.length == 1) ? '0'+mes : mes;
     const anoF = date.getFullYear();
-    return {ano: anoF, mes: mesF, dia: diaF};
+    return Number(anoF+mesF+diaF);
   }
   
   const [resultado, setResultado] = useState([]);
   const [textsearch, setTextSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const imageCart = require("./../../assets/shopping_cart.png")
+  const imageTracking = require("./../../assets/tracking.png")
   const notfound = require("./../../assets/notfound.png")
   
   const [open, setOpen] = useState(false);
@@ -42,20 +43,26 @@ export const Home = ({navigation}) => {
     })
     api.get(url)
     .then(({ data }) => {
-      data.map((res) => {
+      data.map((res,index) => {
+        const datawithouthour = res.body.date_created.toLocaleString().substr(0, 10)
+        const dataS = datawithouthour.toString().replace('-','')
+        const dataString = dataS.replace('-','')
+        let url = 'items?ids=';
+        index < 1 ? url += res.body.id: index<20? url += ','+res.body.id : false
 
-        const filter = [...filter, {
-          id: res.body.id,
-          title: res.body.title,
-          thumbnail: res.body.thumbnail,
-          price: res.body.price,
-          date_c: res.body.date_created
-          
-        }]
-        const date_c = new Date(res.body.date_created);
-        dateFormat(date_c) === dateFormat(date)? setResultado(filter): setLoading(false);
-        console.log(dateFormat(date_c))
-        
+       api.get(url)
+        .then(({ data }) => {
+          data.map((res) => {
+            setLoading(false)
+            setResultado(filter => [...filter, {
+              id: res.body.id,
+              title: res.body.title,
+              thumbnail: res.body.thumbnail,
+              price: res.body.price,    
+            }])
+            
+          })
+        })
       })
     })
   }
@@ -150,13 +157,37 @@ export const Home = ({navigation}) => {
       />
       
       <View style={styles.containerSearch}>
-        <TouchableOpacity onPress={goCart} style={styles.containerImage}>
+        <View style={styles.viewHeaderTitle}>
+          <TouchableOpacity style={styles.buttonTrackingHeader}>
+            <Image
+                source={imageTracking} 
+                style={styles.imageHeaderButton}     
+            />
+          </TouchableOpacity> 
+
+          <Text style={styles.titleHeader}>E-commerce</Text>
+          
+          <TouchableOpacity onPress={goCart} style={styles.buttonCartHeader}>
+            <Image
+                source={imageCart} 
+                style={styles.imageHeaderButton}     
+            />
+          </TouchableOpacity>   
+        </View>
+
+        {/*<TouchableOpacity onPress={goCart} style={styles.containerImage}>
           <Image
               source={imageCart} 
               style={styles.cartImage}     
           />
         </TouchableOpacity>
-        <Text style={styles.title}>E-commerce</Text>
+        <TouchableOpacity style={styles.containerImage2}>
+          <Image
+              source={imageCart} 
+              style={styles.trackingImage}     
+          />
+        </TouchableOpacity>
+        <Text style={styles.title}>E-commerce</Text>*/}
 
         <Searchbar
             style={styles.searchBar}
@@ -169,7 +200,10 @@ export const Home = ({navigation}) => {
 
         <View style={styles.viewFilter}>
           <TouchableOpacity style={styles.buttonFilter} onPress={openFilter}>
-                <Text style={styles.textFilter}> Filtrar produtos por Data</Text>
+                <Text style={styles.textFilter}> Filtrar por data</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonFilter} >
+                <Text style={styles.textFilter}> Ordenar por preço</Text>
           </TouchableOpacity>
         </View>
 

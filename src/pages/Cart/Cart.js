@@ -119,7 +119,7 @@ export const Cart = ({navigation}) => {
   useEffect(() => {
     let url = 'items?ids=';
     cartData.map((item, index) => {
-      index < 1 ? url += item.id : url += ','+item.id
+      index < 1 ? url += item.id : index<20? url += ','+item.id : false
     })
     
     api.get(url)
