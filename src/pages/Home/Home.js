@@ -80,6 +80,7 @@ export const Home = ({navigation}) => {
   const openFilter = () =>{
     setOpen(true);
     setResultado(restore);
+    //comentário
     
    
   }
