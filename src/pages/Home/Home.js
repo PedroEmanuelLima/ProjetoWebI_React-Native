@@ -41,30 +41,40 @@ export const Home = ({navigation}) => {
     resultado.map((item,index) => {
       index < 1 ? url += item.id : index<20? url += ','+item.id : false
     })
+    let ids=[];
+    let urlf ='items?ids='
     api.get(url)
     .then(({ data }) => {
-      data.map((res,index) => {
+      data.map((res) => {
         const datawithouthour = res.body.date_created.toLocaleString().substr(0, 10)
         const dataS = datawithouthour.toString().replace('-','')
         const dataString = dataS.replace('-','')
-        let url = 'items?ids=';
-        index < 1 ? url += res.body.id: index<20? url += ','+res.body.id : false
-
-       api.get(url)
-        .then(({ data }) => {
-          data.map((res) => {
-            setLoading(false)
-            setResultado(filter => [...filter, {
-              id: res.body.id,
-              title: res.body.title,
-              thumbnail: res.body.thumbnail,
-              price: res.body.price,    
-            }])
-            
-          })
+        if(Number(dataString)>=dateFormat(date)){
+          console.log(dataString)
+          console.log(dateFormat(date))
+          ids.push(res.body.id)
+        }
+      })
+      ids.map((item, index) => {
+        index < 1 ? urlf += item : index<20? urlf += ','+item : false
+      })
+      if(ids.length===0){
+        setLoading(false)
+        return false;
+      }
+      api.get(urlf)
+      .then(({ data }) => {
+        data.map((res) => {
+          setResultado(filter => [...filter, {
+            id: res.body.id,
+            title: res.body.title,
+            thumbnail: res.body.thumbnail,
+            price: res.body.price,    
+          }])
         })
       })
     })
+
   }
   
   const openFilter = () =>{
