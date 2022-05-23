@@ -16,18 +16,30 @@ export const styles = StyleSheet.create({
     },
 
     titleHeader:{
-        color:"#fff",
-        alignSelf:"center",
-        fontSize:20,
-        fontWeight:"bold",
-        marginLeft:50,
-        marginRight:50
+      color:"#fff",
+      alignSelf:"center",
+      fontSize:20,
+      fontWeight:"bold",
+      marginLeft:50,
+      marginRight:50
     },
 
     viewHeaderTitle:{
-        flexDirection:"row", 
-        justifyContent:"space-around",
-        marginTop:10,
-        marginBottom:-10
+      flexDirection:"row", 
+      justifyContent:"space-around",
+      marginTop:10,
+      marginBottom:-10
     },
+
+    viewStatus:{
+      width: '100%', 
+      height:"5%", 
+      justifyContent:"center", 
+      backgroundColor: '#DDD'
+    },
+
+    textStatus:{
+      textAlign: 'center', 
+      fontSize: 16
+    }
 })

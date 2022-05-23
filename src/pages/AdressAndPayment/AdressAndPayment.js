@@ -17,29 +17,34 @@ export const AdressAndPayment = ({route,navigation}) => {
     const [numero, setNumero] = useState('');
     const [cep, setCEP] = useState('');
 
+    const setVazio =()=>{
+      setRua('')
+      setBairro('')
+      setCidade('')
+      setEstado('')      
+    }
+
     const buscarcep = () =>{
 
-      apiCep.get(`${cep}/json/`).then(({ data }) => {
-          console.log(data)
-          if(data.cep===cep){
-            setRua(data.logradouro)
-            setBairro(data.bairro)
-            setCidade(data.localidade)
-            setEstado(data.uf)
-          }
-          else{
-            Alert.alert("Erro","Cep não encontrado!")
-            setRua('')
-            setBairro('')
-            setCidade('')
-            setEstado('')
-          }
+      axios.get(`https://viacep.com.br/ws/${cep}/json/`).then(({ data }) => {
+        console.log(data)
+        if(data.cep===cep){
+          setRua(data.logradouro)
+          setBairro(data.bairro)
+          setCidade(data.localidade)
+          setEstado(data.uf)
+        }
+        else{
+          Alert.alert("Erro","Cep não encontrado!")
+          setVazio()
+        }
 
 
-        })
-        .catch(err => { 
-          Alert.alert("Erro","Cep não pode ser vazio!")
-        })
+      })
+      .catch(err => { 
+        Alert.alert("Erro","Cep vazio ou inválido!")
+        setVazio()
+      })
     }
 
     const verify = () =>{

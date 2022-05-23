@@ -60,7 +60,7 @@ export const Track = () => {
         })
     }
 
-  }, [informations])
+  }, [informations.load])
 
   return (
     <View style={{flex:1}}>
@@ -75,7 +75,7 @@ export const Track = () => {
       <View style={styles.containerSearch}>
         <Searchbar
             style={styles.searchBar}
-            placeholder="Rastrear uma encomenda por código..."
+            placeholder="Insira o código da encomenda..."
             onChangeText={setTrackCode}
             onSubmitEditing={getLocation}
             value={trackCode}
@@ -84,8 +84,8 @@ export const Track = () => {
       { (informations.load  && location.load)
         ?
           <>
-              <View style={{width: '100%', height: '5%'}}>
-                <Text style={{ textAlign: 'center', padding: 10, fontSize: 16, backgroundColor: '#DDD' }}>{informations.descricao}</Text>
+              <View style={styles.viewStatus}>
+                <Text style={styles.textStatus}>{informations.descricao}</Text>
               </View>
               <MapView
               style={{flex: 1}}
