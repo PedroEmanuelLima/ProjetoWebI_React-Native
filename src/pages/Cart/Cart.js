@@ -9,7 +9,7 @@ import { Load } from '../../components/Load';
 import { CartEmpty } from '../../components/CartEmpty';
 import { CartProduct } from '../../components/CartProduct';
 import { styles } from './Styles';
-import { api } from '../../config';
+import { apiMercado } from '../../config';
 
 export const Cart = ({navigation}) => {
 
@@ -122,7 +122,7 @@ export const Cart = ({navigation}) => {
       index < 1 ? url += item.id : index<20? url += ','+item.id : false
     })
     
-    api.get(url)
+    apiMercado.get(url)
       .then(({ data }) => {
         setLoading(true)
         data.map((res) => {

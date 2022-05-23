@@ -7,7 +7,7 @@ import { Searchbar } from 'react-native-paper';
 import { styles } from './Styles';
 import Produtos from './../../components/Produtos';
 import { Load } from '../../components/Load';
-import { api } from '../../config';
+import { apiMercado } from '../../config';
 
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
@@ -43,7 +43,7 @@ export const Home = ({navigation}) => {
     })
     let ids=[];
     let urlf ='items?ids='
-    api.get(url)
+    apiMercado.get(url)
     .then(({ data }) => {
       data.map((res) => {
         const datawithouthour = res.body.date_created.toLocaleString().substr(0, 10)
@@ -62,7 +62,7 @@ export const Home = ({navigation}) => {
         setLoading(false)
         return false;
       }
-      api.get(urlf)
+      apiMercado.get(urlf)
       .then(({ data }) => {
         data.map((res) => {
           setResultado(filter => [...filter, {
@@ -99,7 +99,7 @@ export const Home = ({navigation}) => {
     let url = `sites/MLB/search?q=${textsearch}`;
     setResultado([]);
     setLoading(true)
-    api.get(url)
+    apiMercado.get(url)
     .then(({ data }) => {
       setResultado(data.results);
       setRestore(data.results);
@@ -110,7 +110,7 @@ export const Home = ({navigation}) => {
 
   const openProduto = id =>{
 
-    api.get(`items/${id}`)
+    apiMercado.get(`items/${id}`)
     .then(({ data }) => {
     let i = data
     navigation.navigate("Detalhes",{info:i}) 
@@ -122,7 +122,7 @@ export const Home = ({navigation}) => {
   const getItems = ()=>{
     let url = `sites/MLB/search?q=eletronicos`;
     setLoading(true)
-    api.get(url)
+    apiMercado.get(url)
     .then(({ data }) => {
       setResultado(data.results);
       setRestore(data.results);

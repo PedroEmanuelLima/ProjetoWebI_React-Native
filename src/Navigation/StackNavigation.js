@@ -10,6 +10,7 @@ import { Detalhes } from '../pages/Detalhes/Detalhes';
 import { Cart } from '../pages/Cart/Cart'
 import { AdressAndPayment } from "../pages/AdressAndPayment/AdressAndPayment";
 import { Chat } from "../pages/Chat/Chat";
+import { Track } from "../pages/Track/Track";
 
 export default function StackNavigation() {
 
@@ -34,7 +35,7 @@ export default function StackNavigation() {
           ),
           
           headerLeft: () => (
-            <TouchableOpacity >
+            <TouchableOpacity onPress={() => navigation.navigate("Track")}>
               <Image
                   source={require("../assets/tracking.png")} 
                   style={{width:40, height:40}}     
@@ -79,6 +80,14 @@ export default function StackNavigation() {
           headerTintColor: '#fff',
           headerTitleAlign: 'center',
         }}/>
+
+        <Stack.Screen name='Track' component={Track} options={{
+          title: 'Rastrear encomenda',
+          headerStyle: {backgroundColor: 'rgb(3,147,213)'},
+          headerTintColor: '#fff',
+          headerTitleAlign: 'center',
+        }}/>
+    
     </Stack.Navigator>
     </NavigationContainer>
 

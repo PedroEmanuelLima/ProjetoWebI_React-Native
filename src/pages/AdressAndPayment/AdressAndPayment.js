@@ -2,8 +2,7 @@ import React, {useState} from "react";
 import { ScrollView, View, Text, TextInput, TouchableOpacity, Alert, Platform, KeyboardAvoidingView } from 'react-native';
 import { styles } from './Styles';
 import MaskInput, { Masks } from 'react-native-mask-input';
-import { api } from "../../config";
-import axios from "axios";
+import { apiCep } from "../../config";
 
 export const AdressAndPayment = ({route,navigation}) => {
     const {valor} = route.params
@@ -20,7 +19,7 @@ export const AdressAndPayment = ({route,navigation}) => {
 
     const buscarcep = () =>{
 
-        axios.get(`https://viacep.com.br/ws/${cep}/json/`).then(({ data }) => {
+      apiCep.get(`${cep}/json/`).then(({ data }) => {
           console.log(data)
           if(data.cep===cep){
             setRua(data.logradouro)
