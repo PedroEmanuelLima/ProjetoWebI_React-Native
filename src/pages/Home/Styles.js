@@ -1,40 +1,6 @@
 import { StyleSheet} from "react-native";
 
 export const styles = StyleSheet.create({
-
-    /*title: {
-      color:"#fff",
-      alignSelf:"center",
-      marginTop:-35,
-      fontSize:20,
-      fontWeight:"bold"
-    },
-
-    trackingImage:{
-      height:40,
-      width:40,
-      alignSelf:"center",
-      marginRight:3,
-      marginTop:10
-    },    
-
-    containerImage:{
-      width:50,
-      borderRadius:10,
-      alignSelf:"flex-end",
-      marginRight:10,
-      marginTop:10
-    },
-
-    containerImage2:{
-      width:50,
-      borderRadius:10,
-      alignSelf:"flex-start",
-      marginRight:10,
-      marginTop:10
-    },
-    
-    */
   
     searchBar: {
       width:"90%",
@@ -46,38 +12,7 @@ export const styles = StyleSheet.create({
   
     containerSearch:{
       width:"100%",
-      backgroundColor:"rgb(0,158,230)"
-    },
-  
-    imageHeaderButton:{
-      height:40,
-      width:40,
-      alignSelf:"center",
-      marginRight:3,
-    },
-
-    titleHeader:{
-      color:"#fff",
-      alignSelf:"center",
-      fontSize:20,
-      fontWeight:"bold",
-      marginLeft:50,
-      marginRight:50
-    },
-
-    buttonCartHeader:{
-      marginLeft:25
-    },
-
-    buttonTrackingHeader:{
-      marginRight:25
-    },
-
-    viewHeaderTitle:{
-      flexDirection:"row", 
-      justifyContent:"space-around",
-      marginTop:10,
-      marginBottom:-10
+      backgroundColor:"rgb(3,147,213)"
     },
 
     content: {
@@ -126,7 +61,7 @@ export const styles = StyleSheet.create({
     },
 
     buttonFilter:{
-      width:200, 
+      width:"45%", 
       height:30, 
       backgroundColor:"rgb(89,205,255)",
       borderRadius:30,

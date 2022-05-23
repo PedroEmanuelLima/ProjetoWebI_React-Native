@@ -148,14 +148,6 @@ export const Home = ({navigation}) => {
     />
   );
 
-  const goCart = () => {
-    if(resultado.length===0){
-      setTextSearch("")
-      getItems();
-    }
-    navigation.navigate("Cart");
-  }
-
   return (
 
     <View style={{flex:1}}>
@@ -168,37 +160,6 @@ export const Home = ({navigation}) => {
       />
       
       <View style={styles.containerSearch}>
-        <View style={styles.viewHeaderTitle}>
-          <TouchableOpacity style={styles.buttonTrackingHeader}>
-            <Image
-                source={imageTracking} 
-                style={styles.imageHeaderButton}     
-            />
-          </TouchableOpacity> 
-
-          <Text style={styles.titleHeader}>E-commerce</Text>
-          
-          <TouchableOpacity onPress={goCart} style={styles.buttonCartHeader}>
-            <Image
-                source={imageCart} 
-                style={styles.imageHeaderButton}     
-            />
-          </TouchableOpacity>   
-        </View>
-
-        {/*<TouchableOpacity onPress={goCart} style={styles.containerImage}>
-          <Image
-              source={imageCart} 
-              style={styles.cartImage}     
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.containerImage2}>
-          <Image
-              source={imageCart} 
-              style={styles.trackingImage}     
-          />
-        </TouchableOpacity>
-        <Text style={styles.title}>E-commerce</Text>*/}
 
         <Searchbar
             style={styles.searchBar}

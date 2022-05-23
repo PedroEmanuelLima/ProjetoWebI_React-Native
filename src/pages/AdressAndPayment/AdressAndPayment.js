@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import { ScrollView, View, Text, TextInput, TouchableOpacity, Alert, Platform, KeyboardAvoidingView } from 'react-native';
 import { styles } from './Styles';
 import MaskInput, { Masks } from 'react-native-mask-input';
+import { api } from "../../config";
+import axios from "axios";
 
 export const AdressAndPayment = ({route,navigation}) => {
     const {valor} = route.params
@@ -11,22 +13,53 @@ export const AdressAndPayment = ({route,navigation}) => {
     const [validDate, setValidDate] = useState('');
     const [rua, setRua] = useState('');
     const [bairro, setBairro] = useState('');
+    const [cidade, setCidade] = useState('');
+    const [estado, setEstado] = useState('');
     const [numero, setNumero] = useState('');
     const [cep, setCEP] = useState('');
 
+    const buscarcep = () =>{
+
+        axios.get(`https://viacep.com.br/ws/${cep}/json/`).then(({ data }) => {
+          console.log(data)
+          if(data.cep===cep){
+            setRua(data.logradouro)
+            setBairro(data.bairro)
+            setCidade(data.localidade)
+            setEstado(data.uf)
+          }
+          else{
+            Alert.alert("Erro","Cep não encontrado!")
+            setRua('')
+            setBairro('')
+            setCidade('')
+            setEstado('')
+          }
+
+
+        })
+        .catch(err => { 
+          Alert.alert("Erro","Cep não pode ser vazio!")
+        })
+    }
+
     const verify = () =>{
-      if((cpf,creditCard,cvv,validDate,rua,bairro,numero,cep)!==""){
+      if((cpf && creditCard && cvv && validDate && rua && bairro && numero && cidade && estado && cep)!==""){
         Alert.alert(
           '',
           'COMPRA FINALIZADA COM SUCESSO!', 
           [,
-            {text: 'Ok', onPress: ()=> navigation.navigate('Home')},
+            {text: 'Ok', onPress: ()=> navigation.navigate('Chat', {rua:rua, cidade:cidade, bairro:bairro, estado:estado})},
           ],
           {cancelable: false},
         )
         
-      }else{
-        Alert.alert("Campo", "Campo inválido ou nulo!")
+      }
+      if((cpf && creditCard && cvv && validDate)===""){
+        Alert.alert("Pagamento", "Preencha todos os campos de pagamento!")
+      }
+      if((rua && bairro && numero && cidade && estado && cep)===""){
+        Alert.alert("Endereço", "Preencha todos os campos de endereço!")
       }
       }
 
@@ -87,33 +120,50 @@ export const AdressAndPayment = ({route,navigation}) => {
             <Text style={styles.title}>
               Endereço
             </Text>
-
+            <MaskInput
+                style={styles.input}  
+                value={cep}
+                onChangeText={setCEP}
+                onBlur={buscarcep}
+                mask={Masks.ZIP_CODE}
+                placeholder="CEP"
+                keyboardType="numeric"
+            />
             <TextInput
-              style={styles.input}
+              style={styles.endereco}
               value={rua}
               onChangeText={setRua}           
               placeholder="Rua"
+              editable={false}
             />
             <TextInput
-              style={styles.input}
+              style={styles.endereco}
               value={bairro}
               onChangeText={setBairro}      
               placeholder="Bairro"
-            />      
+              editable={false}
+            /> 
             <TextInput
+              style={styles.endereco}
+              value={cidade}
+              onChangeText={setCidade}      
+              placeholder="Cidade"
+              editable={false}
+            />
+            <TextInput
+              style={styles.endereco}
+              value={estado}
+              onChangeText={setEstado}      
+              placeholder="Estado"
+              editable={false}
+            />        
+            <TextInput
+              selectionColor={"red"}
               style={styles.input}
               value={numero}
               onChangeText={setNumero}               
               placeholder="Número"
               keyboardType="numeric"
-            />
-            <MaskInput
-                style={styles.input}  
-                value={cep}
-                onChangeText={setCEP}
-                mask={Masks.ZIP_CODE}
-                placeholder="CEP"
-                keyboardType="numeric"
             />
 
             <TouchableOpacity style={styles.buttonBuy} onPress={verify} >

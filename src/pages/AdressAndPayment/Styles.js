@@ -12,6 +12,16 @@ export const styles = StyleSheet.create({
         padding: 10,
     },
 
+    endereco:{
+        height: 40,
+        margin: 12,
+        borderWidth: 1,
+        borderRadius:30,
+        padding: 10,
+        backgroundColor:'rgb(220,220,220)',
+        color:'black'       
+    },
+
     buttonBuy: {
         width:"80%",
         borderRadius:30,
@@ -42,7 +52,7 @@ export const styles = StyleSheet.create({
         alignSelf:"center", 
         marginTop:30, 
         fontSize:20
-    }
+    },
 
 
 });

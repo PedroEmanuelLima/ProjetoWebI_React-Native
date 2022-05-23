@@ -9,6 +9,7 @@ import { Home } from '../pages/Home/Home';
 import { Detalhes } from '../pages/Detalhes/Detalhes';
 import { Cart } from '../pages/Cart/Cart'
 import { AdressAndPayment } from "../pages/AdressAndPayment/AdressAndPayment";
+import { Chat } from "../pages/Chat/Chat";
 
 export default function StackNavigation() {
 
@@ -18,9 +19,29 @@ export default function StackNavigation() {
         animation:"slide_from_right"
       }}>
 
-        <Stack.Screen name='Home' component={Home} options={{
-          headerShown: false,
-        }}/>
+        <Stack.Screen name='Home' component={Home} options= {({ navigation }) => ({
+          title: 'E-commerce',
+          headerStyle: {backgroundColor: 'rgb(3,147,213)',},
+          headerTintColor: '#fff',
+          headerTitleAlign: 'center',
+          headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.navigate("Cart") } >
+              <Image
+                  source={require("../assets/shopping_cart.png")} 
+                  style={{width:40, height:40}}     
+              />
+          </TouchableOpacity>
+          ),
+          
+          headerLeft: () => (
+            <TouchableOpacity >
+              <Image
+                  source={require("../assets/tracking.png")} 
+                  style={{width:40, height:40}}     
+              />
+          </TouchableOpacity>
+          ),   
+        })}/>
 
         <Stack.Screen name='Detalhes' component={Detalhes} options= {({ navigation }) => ({
           title: 'Produto',
@@ -34,7 +55,8 @@ export default function StackNavigation() {
                   style={{width:40, height:40}}     
               />
           </TouchableOpacity>
-          ),          
+
+          ),        
         })}/>
         
         <Stack.Screen name='Cart' component={Cart} options={{
@@ -46,6 +68,13 @@ export default function StackNavigation() {
 
         <Stack.Screen name='AdressAndPayment' component={AdressAndPayment} options={{
           title: 'Informações de Pagamento',
+          headerStyle: {backgroundColor: 'rgb(3,147,213)'},
+          headerTintColor: '#fff',
+          headerTitleAlign: 'center',
+        }}/>
+
+        <Stack.Screen name='Chat' component={Chat} options={{
+          title:'Chat',
           headerStyle: {backgroundColor: 'rgb(3,147,213)'},
           headerTintColor: '#fff',
           headerTitleAlign: 'center',

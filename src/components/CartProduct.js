@@ -40,7 +40,7 @@ export const CartProduct = ({ id, thumbnail, title, price, quantity, less, more 
                         </View>
 
                         <View>
-                            <Text style={styles.price}>{(price*quantityProduct).toFixed(2).replace(".",",")}</Text>
+                            <Text style={styles.price}>R$ {(price*quantityProduct).toFixed(2).replace(".",",")}</Text>
                         </View>
                     </View>
                 </View>
