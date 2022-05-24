@@ -174,9 +174,9 @@ export const Home = ({navigation}) => {
           <TouchableOpacity style={styles.buttonFilter} onPress={openFilter}>
                 <Text style={styles.textFilter}> Filtrar por data</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonFilter} >
+          {/* <TouchableOpacity style={styles.buttonFilter} >
                 <Text style={styles.textFilter}> Ordenar por preço</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <DateTimePickerModal

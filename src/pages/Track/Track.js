@@ -30,6 +30,7 @@ export const Track = () => {
   const [location, setLocation] = useState(typeLocation)
 
   const getLocation = () => {
+    setInformations(typeInformations);
     apiRastreio.get(trackCode)
       .then(res => {
         const data = res.data.objetos[0].eventos[0];
@@ -49,6 +50,7 @@ export const Track = () => {
   }
 
   useEffect(() => {
+    setLocation(typeLocation);
     if (informations.load) {
       apiInfoLocation.get(`?name=${informations.unidade.endereco.cidade}&admin1=${informations.unidade.endereco.uf}`)
         .then(({data}) => {

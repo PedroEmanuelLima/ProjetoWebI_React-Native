@@ -26,7 +26,7 @@ export const AdressAndPayment = ({route,navigation}) => {
 
     const buscarcep = () =>{
 
-      axios.get(`https://viacep.com.br/ws/${cep}/json/`).then(({ data }) => {
+      apiCep.get(`${cep}/json/`).then(({ data }) => {
         console.log(data)
         if(data.cep===cep){
           setRua(data.logradouro)
@@ -138,14 +138,12 @@ export const AdressAndPayment = ({route,navigation}) => {
               value={rua}
               onChangeText={setRua}           
               placeholder="Rua"
-              editable={false}
             />
             <TextInput
               style={styles.endereco}
               value={bairro}
               onChangeText={setBairro}      
               placeholder="Bairro"
-              editable={false}
             /> 
             <TextInput
               style={styles.endereco}

@@ -34,7 +34,7 @@ export function Chat({navigation,route}) {
     setMessages(previousMessages => GiftedChat.append(previousMessages, msgbot))   
   }
 
-  let id=4;
+  let id=5;
 
   const handleNotification = () => {
     Notification.scheduleNotificationAsync({
@@ -72,7 +72,7 @@ export function Chat({navigation,route}) {
     setMessages([
       {
         _id: 1,
-        text: 'Digite "home" caso deseje sair do chat e voltar às compras!',
+        text: 'Seu código de rastreio é: LB531922811HK',
         createdAt: new Date(),
         user: {
           name: 'React Native',
@@ -81,6 +81,15 @@ export function Chat({navigation,route}) {
       },
       {
         _id: 2,
+        text: 'Digite "home" caso deseje sair do chat e voltar às compras!',
+        createdAt: new Date(),
+        user: {
+          name: 'React Native',
+          avatar: 'https://cdn-icons-png.flaticon.com/512/2080/2080772.png',
+        },
+      },
+      {
+        _id: 3,
         text: 'Digite "notificação" caso deseje receber uma notificação com detalhes da compra!',
         createdAt: new Date(),
         user: {
@@ -90,7 +99,7 @@ export function Chat({navigation,route}) {
       },
 
       {
-        _id: 3,
+        _id: 4,
         text: 'Obrigado pela compra!',
         createdAt: new Date(),
         user: {

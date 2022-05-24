@@ -1,5 +1,5 @@
 import React from "react";
-import {TouchableOpacity, Image} from "react-native";
+import {TouchableOpacity, Image, Text} from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -79,6 +79,8 @@ export default function StackNavigation() {
           headerStyle: {backgroundColor: 'rgb(3,147,213)'},
           headerTintColor: '#fff',
           headerTitleAlign: 'center',
+          headerLeft: () => (<Text>{null}</Text> ),
+          gestureEnabled: true,
         }}/>
 
         <Stack.Screen name='Track' component={Track} options={{
