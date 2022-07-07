@@ -45,3 +45,4 @@ Você pode [acessar o códgigo fonte](https://github.com/PedroEmanuelLima/Projet
 ## Autores
 
 | [<img src="https://avatars.githubusercontent.com/u/58365600?v=4" width=115><br><sub>Pedro Emanuel</sub>](https://github.com/PedroEmanuelLima) |  [<img src="https://avatars.githubusercontent.com/u/22628390?v=4" width=115><br><sub>Danilo Correia</sub>](https://github.com/Danilo160) |  [<img src="https://avatars.githubusercontent.com/u/104629874?v=4" width=115><br><sub>Adriano Gutemberg</sub>](https://github.com/AdrianoGutemberg) |
+| :---: | :---: | :---: |
